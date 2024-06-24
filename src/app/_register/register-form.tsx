@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { loginSchema } from "@/schema/auth";
+import { registerSchema } from "@/schema/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
@@ -21,17 +21,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
+} from "@/components/ui/form";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
-import { useToast } from "./ui/use-toast";
-import { login } from "@/server/actions/auth-action";
+import { useToast } from "@/components/ui/use-toast";
 import { useAction } from "next-safe-action/hooks";
+import { register } from "@/server/actions/auth-action";
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const { toast } = useToast();
   const [type, setType] = useState<"text" | "password">("password");
 
-  const { execute, isExecuting } = useAction(login, {
+  const { execute, isExecuting } = useAction(register, {
     onSuccess(args) {
       if (args.data?.status === "success") {
         toast({
@@ -41,12 +41,12 @@ export default function LoginForm() {
       }
     },
     onError(args) {
+      console.log(args.error);
       if (args.error.validationErrors) {
         args.error.validationErrors._errors?.forEach((error) => {
           toast({
             description: error,
             title: "Error",
-            variant: "destructive",
           });
         });
       }
@@ -54,30 +54,29 @@ export default function LoginForm() {
       toast({
         description: args.error.serverError,
         title: "Error",
-        variant: "destructive",
       });
     },
   });
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  function handleSubmit(data: z.infer<typeof loginSchema>) {
+  function handleSubmit(data: z.infer<typeof registerSchema>) {
+    console.log(data);
     execute(data);
   }
 
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
+        <CardTitle className="text-2xl">Register</CardTitle>
+        <CardDescription>Create an account to get started</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -85,6 +84,23 @@ export default function LoginForm() {
             onSubmit={form.handleSubmit(handleSubmit)}
             className="grid gap-4"
           >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel className="ml-1 font-bold">Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="name"
+                      placeholder="Enter your name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs">&nbsp;</FormMessage>
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -137,7 +153,7 @@ export default function LoginForm() {
               {isExecuting ? (
                 <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
               ) : null}
-              Login
+              Register
             </Button>
           </form>
         </Form>

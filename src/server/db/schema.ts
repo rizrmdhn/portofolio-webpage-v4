@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   index,
   integer,
@@ -80,6 +80,27 @@ export const projects = createTable(
     nameIndex: index("project_name_idx").on(projectsIdx.name),
   }),
 );
+
+export const projectViews = createTable(
+  "project_views",
+  {
+    id: text("id").primaryKey().notNull(),
+    count: integer("count").notNull(),
+    projectId: text("project_id")
+      .references(() => projects.id)
+      .notNull(),
+  },
+  (projectViewsIdx) => ({
+    projectViewId: index("project_view_id_idx").on(projectViewsIdx.id),
+  }),
+);
+
+export const projectRelations = relations(projects, ({ one }) => ({
+  projectView: one(projectViews, {
+    fields: [projects.id],
+    references: [projectViews.projectId],
+  }),
+}));
 
 export const experiences = createTable(
   "experiences",

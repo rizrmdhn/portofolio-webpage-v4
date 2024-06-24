@@ -1,4 +1,4 @@
-import DashboardCard from "@/components/DashboardCard";
+import DashboardCard from "@/app/dashboard/dashboard-card";
 import { getAllViews } from "@/server/queries/page-views-queries";
 import React, { Suspense } from "react";
 

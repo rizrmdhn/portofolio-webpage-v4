@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm";
 import {
   index,
+  integer,
   pgTableCreator,
   text,
   timestamp,
@@ -95,5 +96,17 @@ export const experiences = createTable(
   (experiencesIdx) => ({
     experienceId: index("experience_id_idx").on(experiencesIdx.id),
     nameIndex: index("expereience_name_idx").on(experiencesIdx.name),
+  }),
+);
+
+export const pageViews = createTable(
+  "page_views",
+  {
+    id: text("id").primaryKey().notNull(),
+    count: integer("count").notNull(),
+    title: text("title").notNull(),
+  },
+  (pageViewsIdx) => ({
+    pageViewId: index("page_view_id_idx").on(pageViewsIdx.id),
   }),
 );

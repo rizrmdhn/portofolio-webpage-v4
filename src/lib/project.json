@@ -1,0 +1,56 @@
+{
+  "project": [
+    {
+      "name": "Forums App",
+      "description": "Sebuah Project Forum yang dibuat dengan Next.js dan Tailwind CSS. Project ini dibuat untuk memenuhi tugas akhir dari kelas Menjadi React Web Developer Expert di Dicoding.",
+      "url": "https://forums-app.netlify.app",
+      "githubUrl": "https://github.com/rizrmdhn/forum-app-nextjs",
+      "tech": ["Next.js", "Tailwind CSS", "TypeScript"],
+      "image": [
+        {
+          "url": "/assets/images/project-1.png",
+          "alt": "Forums App"
+        }
+      ]
+    },
+    {
+      "name": "Forum Apps Android",
+      "description": "Sebuah Project Testing yang dibuat dengan React Native. Project ini dibuat untuk bereksperimen dengan React Native",
+      "url": "",
+      "githubUrl": "https://github.com/rizrmdhn/forum-app-android",
+      "tech": ["React Native", "TypeScript"],
+      "image": [
+        {
+          "url": "/assets/images/project-2.png",
+          "alt": "Forums App Android"
+        }
+      ]
+    },
+    {
+      "name": "Learning Aja",
+      "description": "Learning Aja adalah sebuah website yang digunakan untuk mengatur waktu kegiatan belajar.",
+      "url": "",
+      "githubUrl": "https://github.com/rizrmdhn/learning-aja",
+      "tech": ["React JS", "Tailwind CSS", "JavaScript"],
+      "image": [
+        {
+          "url": "/assets/images/project-3.png",
+          "alt": "Learning Aja"
+        }
+      ]
+    },
+    {
+      "name": "Learning Aja Api",
+      "description": "Sebuah RESTFul API yang digunakan pada aplikasi Learning Aja",
+      "url": "",
+      "githubUrl": "https://github.com/rizrmdhn/learning-aja-api",
+      "tech": ["Hapi JS", "PostgreSQL", "Jest", "JavaScript"],
+      "image": [
+        {
+          "url": "",
+          "alt": ""
+        }
+      ]
+    }
+  ]
+}

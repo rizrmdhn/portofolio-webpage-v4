@@ -1,6 +1,13 @@
 "use client";
 
-import { Home, Newspaper, Package2, Settings } from "lucide-react";
+import {
+  AreaChart,
+  Briefcase,
+  FolderGit2,
+  Home,
+  Package2,
+  Settings,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -18,7 +25,7 @@ export default function DesktopMenu() {
       <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <Package2 className="h-6 w-6" />
-          <span className="">Singa</span>
+          <span className="">Dashboard</span>
         </Link>
       </div>
       <div className="flex-1">
@@ -31,11 +38,25 @@ export default function DesktopMenu() {
             Dashboard
           </Link>
           <Link
-            href={"/dashboard/articles"}
-            className={isActiveDesktop(location === "/dashboard/articles")}
+            href={"/dashboard/projects"}
+            className={isActiveDesktop(location === "/dashboard/projects")}
           >
-            <Newspaper className="h-4 w-4" />
-            Articles
+            <FolderGit2 className="h-4 w-4" />
+            Projects
+          </Link>
+          <Link
+            href={"/dashboard/experiences"}
+            className={isActiveDesktop(location === "/dashboard/experiences")}
+          >
+            <Briefcase className="h-4 w-4" />
+            Experiences
+          </Link>
+          <Link
+            href={"/dashboard/statistics"}
+            className={isActiveDesktop(location === "/dashboard/statistics")}
+          >
+            <AreaChart className="h-4 w-4" />
+            Statistics
           </Link>
           <Link
             href={"/dashboard/settings"}

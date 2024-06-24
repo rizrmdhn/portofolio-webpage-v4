@@ -18,6 +18,7 @@ import SocialMediaCard from "@/components/SocialMediaCard";
 import { FaXTwitter } from "react-icons/fa6";
 import { ThemeButton } from "@/components/ThemeButton";
 import ExperienceCard from "@/components/ExperienceCard";
+import { incrementViews } from "@/server/queries/page-views-queries";
 
 export default async function Home() {
   const project: ProjectElement[] = ProjectJson.project;
@@ -107,6 +108,8 @@ export default async function Home() {
     },
   ];
 
+  await incrementViews("home");
+
   return (
     <div className="flex min-h-[100dvh] flex-col">
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
@@ -120,7 +123,7 @@ export default async function Home() {
                 <h2 className="text-xl font-medium text-gray-500 dark:text-gray-400">
                   Fullstack Developer
                 </h2>
-                <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
+                <p className="max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl">
                   Im a freelance fullstack developer, Im passionate about
                   technology and I love to learn new things.
                 </p>
@@ -153,7 +156,7 @@ export default async function Home() {
         </div>
       </section>
       <section
-        className="w-full bg-gray-100 py-12 md:py-24 lg:py-32 dark:bg-gray-800"
+        className="w-full bg-gray-100 py-12 dark:bg-gray-800 md:py-24 lg:py-32"
         id="projects"
       >
         <div className="container px-4 md:px-6">
@@ -162,7 +165,7 @@ export default async function Home() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 My Projects
               </h2>
-              <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              <p className="max-w-[900px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Check out some of the web applications Ive built.
               </p>
             </div>
@@ -197,7 +200,7 @@ export default async function Home() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 My Experience
               </h2>
-              <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              <p className="max-w-[900px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Here are some of my work experiences.
               </p>
             </div>
@@ -216,7 +219,7 @@ export default async function Home() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 My Skills
               </h2>
-              <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              <p className="max-w-[900px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Here are some of the technologies Im proficient in.
               </p>
             </div>
@@ -234,7 +237,7 @@ export default async function Home() {
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
               My Social Media
             </h2>
-            <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+            <p className="mx-auto max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               You can contact me through social media or email.
             </p>
           </div>

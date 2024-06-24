@@ -1,6 +1,14 @@
 "use client";
 
-import { Home, Menu, Newspaper, Package2, Settings } from "lucide-react";
+import {
+  AreaChart,
+  Briefcase,
+  FolderGit2,
+  Home,
+  Menu,
+  Package2,
+  Settings,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -67,21 +75,35 @@ export default function MobileMenu() {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
-              <span className="sr-only">Singa</span>
+              <span className="sr-only">Dashboard</span>
             </Link>
             <Link
               href="/dashboard"
               className={isActiveMobile(location === "/dashboard")}
             >
-              <Home className="h-5 w-5" />
+              <Home className="h-4 w-4" />
               Dashboard
             </Link>
             <Link
-              href={"/dashboard/articles"}
-              className={isActiveMobile(location === "/dashboard/articles")}
+              href={"/dashboard/projects"}
+              className={isActiveMobile(location === "/dashboard/projects")}
             >
-              <Newspaper className="h-5 w-5" />
-              Articles
+              <FolderGit2 className="h-4 w-4" />
+              Projects
+            </Link>
+            <Link
+              href={"/dashboard/experiences"}
+              className={isActiveMobile(location === "/dashboard/experiences")}
+            >
+              <Briefcase className="h-4 w-4" />
+              Experiences
+            </Link>
+            <Link
+              href={"/dashboard/statistics"}
+              className={isActiveMobile(location === "/dashboard/statistics")}
+            >
+              <AreaChart className="h-4 w-4" />
+              Statistics
             </Link>
             <Link
               href={"/dashboard/settings"}
@@ -89,7 +111,7 @@ export default function MobileMenu() {
                 location.includes("/dashboard/settings"),
               )}
             >
-              <Settings className="h-5 w-5" />
+              <Settings className="h-4 w-4" />
               Settings
             </Link>
           </nav>

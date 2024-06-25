@@ -3,9 +3,7 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import Image from "next/image";
-import Link from "next/link";
 import { type ProjectElement } from "@/types/project";
-import { incrementProjectViews } from "@/server/queries/project-views-queries";
 import { useAction } from "next-safe-action/hooks";
 import { incrementProjectView } from "@/server/actions/project-view-action";
 
@@ -17,7 +15,7 @@ export default function ProjectCard({
   github_url,
   tech,
   image_url,
-  views,
+  projectView,
 }: ProjectElement) {
   const { execute } = useAction(incrementProjectView);
 
@@ -88,7 +86,7 @@ export default function ProjectCard({
               rel="noopener noreferrer"
               onClick={() => {
                 execute({ id });
-                window.open(github_url, "_blank");
+                window.open(github_url ?? "", "_blank");
               }}
             >
               Source Code
@@ -98,7 +96,7 @@ export default function ProjectCard({
       </CardContent>
       <CardFooter className="flex items-center justify-end">
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {views} views
+          {projectView.count} views
         </p>
       </CardFooter>
     </Card>

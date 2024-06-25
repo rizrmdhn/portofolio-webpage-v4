@@ -26,24 +26,11 @@ import {
 } from "@/server/actions/project-action";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { InferSelectModel } from "drizzle-orm";
+import { projectViews, projects } from "@/server/db/schema";
 
-export type Projects = {
-  id: string;
-  name: string;
-  description: string | null;
-  tech: string[];
-  image_url: string | null;
-  github_url: string | null;
-  url: string | null;
-  created_at: string;
-  updated_at: string;
-  projectView: ProjectViews;
-};
-
-export type ProjectViews = {
-  id: string;
-  count: number;
-  project_id: string;
+export type Projects = InferSelectModel<typeof projects> & {
+  projectView: InferSelectModel<typeof projectViews>;
 };
 
 export const columns: ColumnDef<Projects>[] = [

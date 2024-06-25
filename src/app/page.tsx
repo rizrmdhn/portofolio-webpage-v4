@@ -174,19 +174,7 @@ export default async function Home() {
           </div>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
             {project.map((project) => (
-              <ProjectCard
-                key={project.id}
-                id={project.id}
-                name={project.name}
-                description={
-                  project.description ?? "Lorem ipsum dolor sit amet"
-                }
-                url={project.github_url ?? ""}
-                github_url={project.url ?? ""}
-                tech={project.tech.map((lang) => lang)}
-                image_url={project.image_url}
-                views={project.projectView.count}
-              />
+              <ProjectCard key={project.id} {...project} />
             ))}
           </div>
         </div>

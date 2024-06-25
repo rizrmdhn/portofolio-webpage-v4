@@ -2,8 +2,9 @@ import {
   DEFAULT_SERVER_ERROR_MESSAGE,
   createSafeActionClient,
 } from "next-safe-action";
-import { getUser, lucia } from "./auth";
+import { lucia } from "./auth";
 import { cookies } from "next/headers";
+import { getUser } from "./session";
 
 export const actionClient = createSafeActionClient({
   // Can also be an async function.

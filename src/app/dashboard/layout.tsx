@@ -1,5 +1,5 @@
 import DashboardLayout from "@/layout/DashboardLayout";
-import { getUser } from "@/lib/auth";
+import { getUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export default async function Layout({

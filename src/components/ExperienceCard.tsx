@@ -3,11 +3,10 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { ExperienceElement } from "@/types/expereince";
+import { type ExperienceElement } from "@/types/expereince";
 
 export default function ExperienceCard({
   title,

@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { ProjectElement } from "@/types/project";
+import { type ProjectElement } from "@/types/project";
 
 export default function ProjectCard({
   description,
@@ -18,7 +18,7 @@ export default function ProjectCard({
         className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400"
         key={index}
       >
-        <span className="text-gray-500 dark:text-gray-40">
+        <span className="dark:text-gray-40 text-gray-500">
           {t}
           {index !== tech.length - 1 && ","}
         </span>
@@ -47,7 +47,7 @@ export default function ProjectCard({
 
   return (
     <Card>
-      <CardContent className="flex flex-col items-start gap-4 mt-4">
+      <CardContent className="mt-4 flex flex-col items-start gap-4">
         {image.map((img, index) => (
           <Image
             key={index}
@@ -61,7 +61,7 @@ export default function ProjectCard({
         <div className="space-y-2">
           <h3 className="text-xl font-bold">{filterName(name)}</h3>
           <p className="text-gray-500 dark:text-gray-400">{description}</p>
-          <div className="flex gap-2 items-center">{renderTechList(tech)}</div>
+          <div className="flex items-center gap-2">{renderTechList(tech)}</div>
           <div className="flex gap-2">
             {url && (
               <Link

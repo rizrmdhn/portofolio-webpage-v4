@@ -41,9 +41,8 @@ export default function RegisterForm() {
       }
     },
     onError(args) {
-      console.log(args.error);
       if (args.error.validationErrors) {
-        args.error.validationErrors._errors?.forEach((error) => {
+        args.error.validationErrors._errors?.forEach((error: string) => {
           toast({
             description: error,
             title: "Error",
@@ -68,7 +67,6 @@ export default function RegisterForm() {
   });
 
   function handleSubmit(data: z.infer<typeof registerSchema>) {
-    console.log(data);
     execute(data);
   }
 

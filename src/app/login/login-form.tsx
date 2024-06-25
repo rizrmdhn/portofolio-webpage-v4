@@ -42,7 +42,7 @@ export default function LoginForm() {
     },
     onError(args) {
       if (args.error.validationErrors) {
-        args.error.validationErrors._errors?.forEach((error) => {
+        args.error.validationErrors._errors?.forEach((error: string) => {
           toast({
             description: error,
             title: "Error",

@@ -16,10 +16,19 @@ export default async function DashboardPage() {
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
       </div>
-      <div className="flex flex-col flex-wrap gap-4 p-4 lg:gap-6 lg:p-6">
+      <div className="flex flex-row flex-wrap gap-4 p-4 lg:gap-6 lg:p-6">
         <Suspense fallback={<div>Loading...</div>}>
-          {pageViews.map((pageView) => (
-            <DashboardCard key={pageView.id} {...pageView} />
+          <DashboardCard
+            title="Total Views"
+            count={pageViews.totalCount}
+            textLocation="right"
+          />
+          {pageViews.views.map((pageView) => (
+            <DashboardCard
+              key={pageView.id}
+              {...pageView}
+              textLocation="right"
+            />
           ))}
         </Suspense>
       </div>

@@ -26,10 +26,10 @@ export const users = createTable(
     name: varchar("name", { length: 256 }),
     email: varchar("email", { length: 256 }).notNull(),
     password: varchar("password", { length: 256 }).notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt", { withTimezone: true }),
+    updatedAt: timestamp("updatedAt", { withTimezone: true, mode: "string" }),
   },
   (userIdx) => ({
     idIndex: index("users_id_idx").on(userIdx.id),
@@ -51,8 +51,13 @@ export const session = createTable(
       withTimezone: true,
       mode: "date",
     }).notNull(),
-    created_at: timestamp("created_at", { withTimezone: true, mode: "string" }),
-    updated_at: timestamp("updated_at", { withTimezone: true, mode: "string" }),
+    created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updated_at: timestamp("updated_at", {
+      withTimezone: true,
+      mode: "string",
+    }).notNull(),
   },
   (table) => {
     return {
@@ -66,14 +71,19 @@ export const projects = createTable(
   "projects",
   {
     id: text("id").primaryKey().notNull(),
-    name: varchar("name", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
     description: text("description"),
     tech: text("tech").array().notNull(),
-    imageUrl: text("image_url"),
-    githubUrl: text("github_url"),
+    image_url: text("image_url"),
+    github_url: text("github_url"),
     url: text("url"),
-    created_at: timestamp("created_at", { withTimezone: true }),
-    updated_at: timestamp("updated_at", { withTimezone: true }),
+    created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updated_at: timestamp("updated_at", {
+      withTimezone: true,
+      mode: "string",
+    }).notNull(),
   },
   (projectsIdx) => ({
     projectId: index("project_id_idx").on(projectsIdx.id),
@@ -86,7 +96,7 @@ export const projectViews = createTable(
   {
     id: text("id").primaryKey().notNull(),
     count: integer("count").notNull(),
-    projectId: text("project_id")
+    project_id: text("project_id")
       .references(() => projects.id)
       .notNull(),
   },
@@ -98,7 +108,7 @@ export const projectViews = createTable(
 export const projectRelations = relations(projects, ({ one }) => ({
   projectView: one(projectViews, {
     fields: [projects.id],
-    references: [projectViews.projectId],
+    references: [projectViews.project_id],
   }),
 }));
 
@@ -111,8 +121,13 @@ export const experiences = createTable(
     type: text("type").notNull(),
     company: text("company").notNull(),
     date: text("date").notNull(),
-    created_at: timestamp("created_at", { withTimezone: true }),
-    updated_at: timestamp("updated_at", { withTimezone: true }),
+    created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updated_at: timestamp("updated_at", {
+      withTimezone: true,
+      mode: "string",
+    }).notNull(),
   },
   (experiencesIdx) => ({
     experienceId: index("experience_id_idx").on(experiencesIdx.id),

@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/auth";
+import { getUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import React from "react";
 import LoginForm from "@/app/login/login-form";

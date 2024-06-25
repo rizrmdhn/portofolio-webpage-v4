@@ -1,3 +1,5 @@
+import "server-only";
+
 import { eq, sql } from "drizzle-orm";
 import { db } from "@/server/db";
 import { pageViews } from "@/server/db/schema";
@@ -21,5 +23,12 @@ export const getViews = async (pageId: string) => {
 
 export const getAllViews = async () => {
   const views = await db.query.pageViews.findMany();
-  return views;
+
+  let totalCount = 0;
+
+  views.forEach((view) => {
+    totalCount += view.count;
+  });
+
+  return { views, totalCount: totalCount };
 };

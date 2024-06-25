@@ -1,5 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import SkillCard from "@/components/SkillCard";
+import ProjectJson from "@/lib/project.json";
+import ProjectCard from "@/components/ProjectCard";
+import SocialMediaCard from "@/components/SocialMediaCard";
+import ExperienceCard from "@/components/ExperienceCard";
+import HeroImage from "@/assets/images/avatar.jpg";
 import { FaGithub, FaLinkedin, FaReact } from "react-icons/fa";
 import {
   SiDart,
@@ -8,20 +14,16 @@ import {
   SiNextdotjs,
   SiTypescript,
 } from "react-icons/si";
-import SkillCard from "@/components/SkillCard";
-import ProjectJson from "@/lib/project.json";
 import type { Experiences, Skills, SocialMedia } from "@/types";
 import { type ProjectElement } from "@/types/project";
-import ProjectCard from "@/components/ProjectCard";
 import { IoIosMail, IoLogoJavascript } from "react-icons/io";
-import SocialMediaCard from "@/components/SocialMediaCard";
 import { FaXTwitter } from "react-icons/fa6";
 import { ThemeButton } from "@/components/ThemeButton";
-import ExperienceCard from "@/components/ExperienceCard";
 import { incrementViews } from "@/server/queries/page-views-queries";
+import { getAllProjects } from "@/server/queries/project-queries";
 
 export default async function Home() {
-  const project: ProjectElement[] = ProjectJson.project;
+  const project = await getAllProjects();
 
   const skills: Skills[] = [
     {
@@ -138,7 +140,7 @@ export default async function Home() {
                   View Projects
                 </Link>
                 <Link
-                  className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50  dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
                   href="#contact"
                 >
                   Contact Me
@@ -149,7 +151,7 @@ export default async function Home() {
               alt="Hero"
               className="mx-auto aspect-square overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
               height="550"
-              src="/assets/images/avatar.jpg"
+              src={HeroImage}
               width="550"
             />
           </div>
@@ -171,23 +173,19 @@ export default async function Home() {
             </div>
           </div>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
-            {project.map((project, index) => (
-              <ProjectCard key={index} {...project} />
-            ))}
-            {project.map((project, index) => (
+            {project.map((project) => (
               <ProjectCard
-                key={index}
+                key={project.id}
+                id={project.id}
                 name={project.name}
-                description={project.description}
-                url={project.githubUrl ?? ""}
-                githubUrl={project.url ?? ""}
+                description={
+                  project.description ?? "Lorem ipsum dolor sit amet"
+                }
+                url={project.github_url ?? ""}
+                github_url={project.url ?? ""}
                 tech={project.tech.map((lang) => lang)}
-                image={[
-                  {
-                    url: "https://placehold.co/600x400/png",
-                    alt: project.name,
-                  },
-                ]}
+                image_url={project.image_url}
+                views={project.projectView.count}
               />
             ))}
           </div>

@@ -11,7 +11,7 @@ export const incrementProjectViews = async (projectId: string) => {
     .set({
       count: sql`${projectViews.count} + 1`,
     })
-    .where(eq(projectViews.id, projectId));
+    .where(eq(projectViews.project_id, projectId));
 };
 
 export const getProjectViews = async (projectId: string) => {

@@ -3,12 +3,14 @@ export type Project = {
 };
 
 export type ProjectElement = {
+  id;
   name: string;
   description: string;
   url: string;
-  githubUrl: string;
+  github_url: string;
   tech: string[];
-  image: Image[];
+  image_url: string | null;
+  views: number;
 };
 
 export type Image = {

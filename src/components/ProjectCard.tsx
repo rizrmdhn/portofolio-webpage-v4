@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent, CardFooter } from "./ui/card";
 import Image from "next/image";
+import { Card, CardContent, CardFooter } from "./ui/card";
 import { type Projects } from "@/types/project";
 import { useAction } from "next-safe-action/hooks";
 import { incrementProjectView } from "@/server/actions/project-view-action";
+import { FolderGit } from "lucide-react";
 
 export default function ProjectCard({
   id,
@@ -52,9 +53,9 @@ export default function ProjectCard({
     }
   }
 
-  return (
-    <Card>
-      <CardContent className="mt-4 flex flex-col items-start gap-4">
+  function renenderImage() {
+    if (image_url) {
+      return (
         <Image
           alt={name}
           className="aspect-[3/2] w-full overflow-hidden rounded-xl object-cover"
@@ -62,6 +63,20 @@ export default function ProjectCard({
           src={image_url ? image_url : "https://placehold.co/600x400/png"}
           width="300"
         />
+      );
+    } else {
+      return (
+        <div className="flex aspect-[3/2] w-full flex-col items-center justify-center overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
+          <FolderGit className="m-auto h-20 w-20" />
+        </div>
+      );
+    }
+  }
+
+  return (
+    <Card>
+      <CardContent className="mt-4 flex flex-col items-start gap-4">
+        {renenderImage()}
         <div className="space-y-2">
           <h3 className="text-xl font-bold">{filterName(name)}</h3>
           <p className="text-gray-500 dark:text-gray-400">{description}</p>
@@ -69,7 +84,7 @@ export default function ProjectCard({
           <div className="flex gap-2">
             {url && (
               <a
-                className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:cursor-pointer hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
@@ -81,7 +96,7 @@ export default function ProjectCard({
               </a>
             )}
             <a
-              className="inline-flex h-9 items-center justify-center rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+              className="inline-flex h-9 items-center justify-center rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:cursor-pointer hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {

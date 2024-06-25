@@ -21,7 +21,7 @@ export default function ExperienceCard({
   date,
   position,
 }: ExperienceCardProps) {
-  const renderWorkType = () => {
+  function renderWorkType() {
     if (type === "work") {
       return (
         <Briefcase className="hidden xl:block xl:text-black xl:dark:text-white" />
@@ -35,7 +35,7 @@ export default function ExperienceCard({
         <GraduationCap className="hidden xl:block xl:text-black xl:dark:text-white" />
       );
     }
-  };
+  }
 
   return (
     <div className="flex h-full w-full">

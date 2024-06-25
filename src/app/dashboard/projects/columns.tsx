@@ -234,7 +234,7 @@ export const columns: ColumnDef<Projects>[] = [
           <DropdownMenuContent>
             <DropdownMenuItem
               onClick={() => {
-                router.push("/dashboard/projects/new");
+                router.push(`/dashboard/projects/${row.original.id}/edit`);
               }}
             >
               <Pencil className="mr-4 size-4" />

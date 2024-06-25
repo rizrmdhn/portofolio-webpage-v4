@@ -18,6 +18,9 @@ export const addProjectSchema = z.object({
 });
 
 export const updateProjectSchema = z.object({
+  id: z.string({
+    required_error: "ID is required",
+  }),
   name: z
     .string()
     .min(3, {
@@ -31,10 +34,11 @@ export const updateProjectSchema = z.object({
     })
     .optional(),
   tech: z
-    .array(z.object({ name: z.string() }))
+    .string()
     .min(1, {
       message: "Tech is required",
     })
+    .describe("List of tech used in the project")
     .optional(),
   github_url: z.string().optional(),
   url: z.string().optional(),

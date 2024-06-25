@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { nanoid } from "nanoid";
 import { projects } from "@/server/db/schema";
-import { addProjectSchema } from "@/schema/projects";
+import { addProjectSchema, updateProjectSchema } from "@/schema/projects";
 import { insertProjectView } from "./project-views-queries";
 import { utapi } from "../uploadthing";
 
@@ -66,6 +66,45 @@ export const insertProject = async (data: z.infer<typeof addProjectSchema>) => {
   }
 
   await insertProjectView(project.id);
+
+  return project;
+};
+
+export const updateProject = async (
+  data: z.infer<typeof updateProjectSchema>,
+) => {
+  const tech: string[] = [];
+  if (data.tech) {
+    data.tech.split(",").forEach((t) => {
+      tech.push(t.trim());
+    });
+  }
+
+  const oldProject = await db.query.projects.findFirst({
+    where: eq(projects.id, data.id),
+  });
+
+  if (!oldProject) {
+    throw new Error("Project not found");
+  }
+
+  const [project] = await db
+    .update(projects)
+    .set({
+      name: data.name ?? oldProject.name,
+      description: data.description ?? oldProject.description,
+      tech: tech ?? oldProject.tech,
+      github_url: data.github_url ?? oldProject.github_url,
+      url: data.url ?? oldProject.url,
+      updated_at: new Date().toISOString(),
+    })
+    .where(eq(projects.id, data.id))
+    .returning()
+    .execute();
+
+  if (!project) {
+    throw new Error("Failed to update project");
+  }
 
   return project;
 };

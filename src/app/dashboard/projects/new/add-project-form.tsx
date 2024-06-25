@@ -52,14 +52,15 @@ export default function AddProjectForm() {
           }}
           formSchema={addProjectSchema}
           fieldConfig={{
-            image_url: {
-              label: "Image",
-            },
             github_url: {
               label: "Github",
             },
             url: {
               label: "Website",
+            },
+            tech: {
+              label: "Tech",
+              description: "use comma to separate",
             },
           }}
         >

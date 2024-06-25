@@ -97,7 +97,7 @@ export const projectViews = createTable(
     id: text("id").primaryKey().notNull(),
     count: integer("count").notNull(),
     project_id: text("project_id")
-      .references(() => projects.id)
+      .references(() => projects.id, { onDelete: "cascade" })
       .notNull(),
   },
   (projectViewsIdx) => ({

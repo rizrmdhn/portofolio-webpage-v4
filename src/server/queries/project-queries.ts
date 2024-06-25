@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import { projects } from "@/server/db/schema";
 import { addProjectSchema } from "@/schema/projects";
 import { insertProjectView } from "./project-views-queries";
+import { utapi } from "../uploadthing";
 
 export const getAllProjects = async () => {
   const projects = await db.query.projects.findMany({
@@ -31,8 +32,8 @@ export const getProjectDetail = async (projectId: string) => {
 
 export const insertProject = async (data: z.infer<typeof addProjectSchema>) => {
   const tech: string[] = [];
-  data.tech.map((t) => {
-    tech.push(t.name);
+  data.tech.split(",").forEach((t) => {
+    tech.push(t.trim());
   });
 
   const [project] = await db
@@ -42,7 +43,6 @@ export const insertProject = async (data: z.infer<typeof addProjectSchema>) => {
       name: data.name,
       description: data.description,
       tech: tech,
-      image_url: data.image_url,
       github_url: data.github_url,
       url: data.url,
       created_at: new Date().toISOString(),
@@ -95,6 +95,30 @@ export const insertImageToProject = async (
 
   if (!project) {
     throw new Error("Failed to update project");
+  }
+
+  return project;
+};
+
+export const deleteProject = async (projectId: string) => {
+  const [project] = await db
+    .delete(projects)
+    .where(eq(projects.id, projectId))
+    .returning()
+    .execute();
+
+  if (!project) {
+    throw new Error("Failed to delete project");
+  }
+
+  if (project.image_url) {
+    const imageFiles = project.image_url.split("/").pop();
+
+    if (!imageFiles) {
+      throw new Error("Project image not found");
+    }
+
+    await utapi.deleteFiles(imageFiles);
   }
 
   return project;

@@ -1,6 +1,13 @@
 "use client";
 
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
+import { AutoFormInputComponentProps } from "@/components/ui/auto-form/types";
+import {
+  FormControl,
+  FormDescription,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { addProjectSchema } from "@/schema/projects";
@@ -52,14 +59,15 @@ export default function AddProjectForm() {
           }}
           formSchema={addProjectSchema}
           fieldConfig={{
-            image_url: {
-              label: "Image",
-            },
             github_url: {
               label: "Github",
             },
             url: {
               label: "Website",
+            },
+            tech: {
+              label: "Tech",
+              description: "use comma to separate",
             },
           }}
         >

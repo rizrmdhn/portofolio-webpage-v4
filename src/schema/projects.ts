@@ -7,10 +7,12 @@ export const addProjectSchema = z.object({
   description: z.string().min(3, {
     message: "Description is too short (minimum is 3 characters)",
   }),
-  tech: z.array(z.object({ name: z.string() })).min(1, {
-    message: "Tech is required",
-  }),
-  image_url: z.string().optional(),
+  tech: z
+    .string()
+    .min(1, {
+      message: "Tech is required",
+    })
+    .describe("List of tech used in the project"),
   github_url: z.string().optional(),
   url: z.string().optional(),
 });
@@ -34,7 +36,6 @@ export const updateProjectSchema = z.object({
       message: "Tech is required",
     })
     .optional(),
-  image_url: z.string().optional(),
   github_url: z.string().optional(),
   url: z.string().optional(),
 });

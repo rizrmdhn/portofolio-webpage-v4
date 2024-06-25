@@ -3,6 +3,7 @@
 import { authActionClient } from "@/lib/safe-action";
 import { addProjectSchema } from "@/schema/projects";
 import {
+  deleteProject,
   getProjectDetail,
   insertImageToProject,
   insertProject,
@@ -15,15 +16,12 @@ import { utapi } from "../uploadthing";
 export const createNewProject = authActionClient
   .schema(addProjectSchema)
   .action(
-    async ({
-      parsedInput: { name, description, tech, image_url, github_url, url },
-    }) => {
+    async ({ parsedInput: { name, description, tech, github_url, url } }) => {
       try {
         const newProject = await insertProject({
           name,
           description,
           tech,
-          image_url,
           github_url,
           url,
         });
@@ -36,6 +34,25 @@ export const createNewProject = authActionClient
       }
     },
   );
+
+export const deleteProjectAction = authActionClient
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id } }) => {
+    try {
+      const project = await getProjectDetail(id);
+
+      if (!project) {
+        throw new Error("Project not found");
+      }
+
+      await deleteProject(project.id);
+
+      revalidatePath("/dashboard/projects");
+      return response("success", "Project deleted successfully");
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message);
+    }
+  });
 
 export const deleteProjectImage = authActionClient
   .schema(z.object({ id: z.string() }))

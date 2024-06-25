@@ -21,7 +21,10 @@ import moment from "moment";
 import { UploadButton } from "@/lib/uploadthing";
 import { toast } from "@/components/ui/use-toast";
 import { useAction } from "next-safe-action/hooks";
-import { deleteProjectImage } from "@/server/actions/project-action";
+import {
+  deleteProjectAction,
+  deleteProjectImage,
+} from "@/server/actions/project-action";
 import { useRouter } from "next/navigation";
 
 export type Projects = {
@@ -58,16 +61,20 @@ export const columns: ColumnDef<Projects>[] = [
       return <p className="hidden xl:block">Tech</p>;
     },
     cell: ({ row }) => {
+      // get the first 3 techs
       return (
         <ul className="hidden xl:flex xl:flex-wrap xl:gap-1">
-          {row.getValue<string[]>("tech").map((tech) => (
-            <li
-              key={tech}
-              className="rounded-md border px-2 py-1 dark:border-white"
-            >
-              {tech}
-            </li>
-          ))}
+          {row
+            .getValue<string[]>("tech")
+            .slice(0, 2)
+            .map((tech, idx) => (
+              <li
+                key={idx}
+                className="rounded-md border px-2 py-1 dark:border-white"
+              >
+                {tech}
+              </li>
+            ))}
         </ul>
       );
     },
@@ -198,18 +205,42 @@ export const columns: ColumnDef<Projects>[] = [
   {
     accessorKey: "action",
     header: "Action",
-    cell: () => {
+    cell: ({ row }) => {
+      const router = useRouter();
+
+      const { execute, isExecuting } = useAction(deleteProjectAction, {
+        onSuccess(args) {
+          if (args.data?.status === "success") {
+            toast({
+              title: "Success",
+              description: args.data?.message,
+            });
+          }
+        },
+        onError(args) {
+          toast({
+            title: "Error",
+            description: args.error.serverError,
+            variant: "destructive",
+          });
+        },
+      });
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
             <EllipsisVertical className="size-4 text-black dark:text-white" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                router.push("/dashboard/projects/new");
+              }}
+            >
               <Pencil className="mr-4 size-4" />
               Edit
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => execute({ id: row.original.id })}>
               <Trash className="mr-4 size-4" />
               Delete
             </DropdownMenuItem>

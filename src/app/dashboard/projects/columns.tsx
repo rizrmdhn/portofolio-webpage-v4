@@ -4,7 +4,6 @@ import {
   ArrowDown,
   ArrowUp,
   EllipsisVertical,
-  ImageUp,
   LoaderCircle,
   Pencil,
   Trash,
@@ -26,6 +25,7 @@ import {
   deleteProjectImage,
 } from "@/server/actions/project-action";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export type Projects = {
   id: string;
@@ -206,8 +206,6 @@ export const columns: ColumnDef<Projects>[] = [
     accessorKey: "action",
     header: "Action",
     cell: ({ row }) => {
-      const router = useRouter();
-
       const { execute, isExecuting } = useAction(deleteProjectAction, {
         onSuccess(args) {
           if (args.data?.status === "success") {
@@ -232,13 +230,14 @@ export const columns: ColumnDef<Projects>[] = [
             <EllipsisVertical className="size-4 text-black dark:text-white" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem
-              onClick={() => {
-                router.push(`/dashboard/projects/${row.original.id}/edit`);
-              }}
-            >
-              <Pencil className="mr-4 size-4" />
-              Edit
+            <DropdownMenuItem asChild>
+              <Link
+                href={`/dashboard/projects/${row.original.id}/edit`}
+                className="flex flex-row"
+              >
+                <Pencil className="mr-4 size-4" />
+                Edit
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => execute({ id: row.original.id })}>
               <Trash className="mr-4 size-4" />

@@ -14,13 +14,14 @@ import {
   SiNextdotjs,
   SiTypescript,
 } from "react-icons/si";
-import type { Experiences, Skills, SocialMedia } from "@/types";
-import { type ProjectElement } from "@/types/project";
 import { IoIosMail, IoLogoJavascript } from "react-icons/io";
 import { FaXTwitter } from "react-icons/fa6";
 import { ThemeButton } from "@/components/ThemeButton";
 import { incrementViews } from "@/server/queries/page-views-queries";
 import { getAllProjects } from "@/server/queries/project-queries";
+import { Skills } from "@/types/skills";
+import { Experiences } from "@/types/expereince";
+import { SocialMedia } from "@/types/social-media";
 
 export default async function Home() {
   const project = await getAllProjects();
@@ -62,28 +63,37 @@ export default async function Home() {
 
   const experiences: Experiences[] = [
     {
-      title: "Web Developer",
-      type: "Freelance",
+      name: "Web Developer",
+      type: "freelance",
       company: "Freelance",
       date: "Aug 2023 - Present",
       description:
         "As a freelance developer, I specialize in crafting web applications. My expertise spans utilizing React for frontend development and either Adonis or Hapi.js for backend tasks. Additionally, I proficiently work with JavaScript, TypeScript, Kotlin, and Flutter to meet diverse project requirements.",
+      id: "",
+      created_at: "",
+      updated_at: "",
     },
     {
-      title: "Data Management",
-      type: "Internship",
+      name: "Data Management",
+      type: "internship",
       company: "Telkom Indonesia",
       date: "Jun 2021 - Aug 2021",
       description:
         "The internship spans over 3 months and entails the task of inputting customer data through Telkom applications, specifically during instances where the ODP fails to appear. This involves navigating Telkom's sales and regional applications to ensure accurate data entry despite the absence of ODP visibility.",
+      id: "",
+      created_at: "",
+      updated_at: "",
     },
     {
-      title: "Teknisi Komputer",
-      type: "Internship",
+      name: "Teknisi Komputer",
+      type: "internship",
       company: "Smart Computer Samarinda",
       date: "Feb 2018 - Jul 2018",
       description:
         "During the 5-month internship, tasks include resolving issues with malfunctioning computers, assembling computer hardware, and conducting installations on computer systems.",
+      id: "",
+      created_at: "",
+      updated_at: "",
     },
   ];
 
@@ -191,9 +201,14 @@ export default async function Home() {
               </p>
             </div>
           </div>
-          <div className="mx-auto flex max-w-lg flex-col items-center gap-5 pb-5 pt-5">
+          <div className="flex w-full flex-col items-center justify-center pb-5 pt-5">
             {experiences.map((skill, index) => (
-              <ExperienceCard key={index} {...skill} />
+              // every 2nd element restarts to position 0
+              <ExperienceCard
+                key={index}
+                {...skill}
+                position={index % 2 === 0 ? 0 : 1}
+              />
             ))}
           </div>
         </div>

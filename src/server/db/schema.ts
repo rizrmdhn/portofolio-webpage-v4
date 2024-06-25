@@ -5,6 +5,7 @@ import { relations, sql } from "drizzle-orm";
 import {
   index,
   integer,
+  pgEnum,
   pgTableCreator,
   text,
   timestamp,
@@ -112,13 +113,19 @@ export const projectRelations = relations(projects, ({ one }) => ({
   }),
 }));
 
+export const experienceEnum = pgEnum("experience_type", [
+  "work",
+  "internship",
+  "freelance",
+]);
+
 export const experiences = createTable(
   "experiences",
   {
     id: text("id").primaryKey().notNull(),
     name: text("name").notNull(),
     description: text("description"),
-    type: text("type").notNull(),
+    type: experienceEnum("type").notNull(),
     company: text("company").notNull(),
     date: text("date").notNull(),
     created_at: timestamp("created_at", { withTimezone: true, mode: "string" })

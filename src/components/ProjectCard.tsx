@@ -3,7 +3,7 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import Image from "next/image";
-import { type ProjectElement } from "@/types/project";
+import { type Projects } from "@/types/project";
 import { useAction } from "next-safe-action/hooks";
 import { incrementProjectView } from "@/server/actions/project-view-action";
 
@@ -16,7 +16,7 @@ export default function ProjectCard({
   tech,
   image_url,
   projectView,
-}: ProjectElement) {
+}: Projects) {
   const { execute } = useAction(incrementProjectView);
 
   function renderTechList(tech: string[]) {

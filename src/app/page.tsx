@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import SkillCard from "@/components/SkillCard";
-import ProjectJson from "@/lib/project.json";
 import ProjectCard from "@/components/ProjectCard";
 import SocialMediaCard from "@/components/SocialMediaCard";
 import ExperienceCard from "@/components/ExperienceCard";
@@ -22,9 +21,11 @@ import { getAllProjects } from "@/server/queries/project-queries";
 import { Skills } from "@/types/skills";
 import { Experiences } from "@/types/expereince";
 import { SocialMedia } from "@/types/social-media";
+import { getAllExperiences } from "@/server/queries/experience-queries";
 
 export default async function Home() {
   const project = await getAllProjects();
+  const experiences = await getAllExperiences();
 
   const skills: Skills[] = [
     {
@@ -58,42 +59,6 @@ export default async function Home() {
     {
       name: "Jetpack Compose",
       icon: <SiJetpackcompose className="h-12 w-12" />,
-    },
-  ];
-
-  const experiences: Experiences[] = [
-    {
-      name: "Web Developer",
-      type: "freelance",
-      company: "Freelance",
-      date: "Aug 2023 - Present",
-      description:
-        "As a freelance developer, I specialize in crafting web applications. My expertise spans utilizing React for frontend development and either Adonis or Hapi.js for backend tasks. Additionally, I proficiently work with JavaScript, TypeScript, Kotlin, and Flutter to meet diverse project requirements.",
-      id: "",
-      created_at: "",
-      updated_at: "",
-    },
-    {
-      name: "Data Management",
-      type: "internship",
-      company: "Telkom Indonesia",
-      date: "Jun 2021 - Aug 2021",
-      description:
-        "The internship spans over 3 months and entails the task of inputting customer data through Telkom applications, specifically during instances where the ODP fails to appear. This involves navigating Telkom's sales and regional applications to ensure accurate data entry despite the absence of ODP visibility.",
-      id: "",
-      created_at: "",
-      updated_at: "",
-    },
-    {
-      name: "Teknisi Komputer",
-      type: "internship",
-      company: "Smart Computer Samarinda",
-      date: "Feb 2018 - Jul 2018",
-      description:
-        "During the 5-month internship, tasks include resolving issues with malfunctioning computers, assembling computer hardware, and conducting installations on computer systems.",
-      id: "",
-      created_at: "",
-      updated_at: "",
     },
   ];
 

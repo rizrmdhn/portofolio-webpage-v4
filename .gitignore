@@ -41,3 +41,10 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+
+# my json
+project.json
+./project.json
+experience.json
+./experience.json

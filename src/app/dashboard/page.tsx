@@ -1,5 +1,4 @@
 import DashboardCard from "@/app/dashboard/dashboard-card";
-import DashboardChart from "@/components/DashboardChart";
 import { getAllViews } from "@/server/queries/page-views-queries";
 import React, { Suspense } from "react";
 
@@ -33,10 +32,6 @@ export default async function DashboardPage() {
           ))}
         </Suspense>
       </div>
-      <DashboardChart
-        pageViews={pageViews.views}
-        totalCount={pageViews.totalCount}
-      />
     </>
   );
 }

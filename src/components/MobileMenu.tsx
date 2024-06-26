@@ -28,8 +28,14 @@ import { useTheme } from "next-themes";
 import { useAction } from "next-safe-action/hooks";
 import { logout } from "@/server/actions/auth-action";
 import { useToast } from "./ui/use-toast";
+import { User } from "lucia";
+import { Suspense } from "react";
 
-export default function MobileMenu() {
+type MobileMenuProps = {
+  user: User;
+};
+
+export default function MobileMenu({ user }: MobileMenuProps) {
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
   const { execute, isExecuting } = useAction(logout, {
@@ -49,7 +55,6 @@ export default function MobileMenu() {
       });
     },
   });
-  const { data, status: authUserStatus } = useAuthUser();
 
   const location = usePathname();
 
@@ -119,19 +124,14 @@ export default function MobileMenu() {
       </Sheet>
       <DropdownMenu>
         <DropdownMenuTrigger className="ml-auto">
-          {authUserStatus === "pending" ? (
-            <Skeleton className="h-10 w-10" />
-          ) : (
+          <Suspense fallback={<Skeleton className="h-10 w-10" />}>
             <Avatar className="h-10 w-10 border">
-              <AvatarImage
-                alt={data?.data?.data?.user.name}
-                src={data?.data?.data?.user.name}
-              />
+              <AvatarImage alt={user.name} src={user.name} />
               <AvatarFallback>
-                {data?.data?.data?.user.name.charAt(0).toUpperCase()}
+                {user.name.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-          )}
+          </Suspense>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>

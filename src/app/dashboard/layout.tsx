@@ -19,7 +19,7 @@ export default async function Layout({
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout user={user}>
       {children}
       {modal}
       <div id="modal-root" />

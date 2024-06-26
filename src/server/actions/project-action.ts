@@ -119,6 +119,7 @@ export const deleteProjectImage = authActionClient
       await insertImageToProject(id, null);
 
       revalidatePath("/dashboard/projects");
+      revalidatePath("/");
       return response("success", "Project image deleted successfully");
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message);

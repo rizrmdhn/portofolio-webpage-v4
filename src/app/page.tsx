@@ -16,16 +16,15 @@ import {
 import { IoIosMail, IoLogoJavascript } from "react-icons/io";
 import { FaXTwitter } from "react-icons/fa6";
 import { ThemeButton } from "@/components/ThemeButton";
-import { incrementViews } from "@/server/queries/page-views-queries";
 import { getAllProjects } from "@/server/queries/project-queries";
 import { Skills } from "@/types/skills";
-import { Experiences } from "@/types/expereince";
 import { SocialMedia } from "@/types/social-media";
-import { getAllExperiences } from "@/server/queries/experience-queries";
+import { getNewestExperience } from "@/server/queries/experience-queries";
+import { incrementPageViewAction } from "@/server/actions/page-view-action";
 
 export default async function Home() {
   const project = await getAllProjects();
-  const experiences = await getAllExperiences();
+  const experiences = await getNewestExperience();
 
   const skills: Skills[] = [
     {
@@ -85,7 +84,7 @@ export default async function Home() {
     },
   ];
 
-  await incrementViews("home");
+  await incrementPageViewAction("home page");
 
   return (
     <div className="flex min-h-[100dvh] flex-col">
@@ -147,11 +146,19 @@ export default async function Home() {
               </p>
             </div>
           </div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
-            {project.map((project) => (
-              <ProjectCard key={project.id} {...project} />
-            ))}
-          </div>
+          {project.length > 0 ? (
+            <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
+              {project.map((project) => (
+                <ProjectCard key={project.id} {...project} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex w-full flex-col items-center justify-center space-y-4 pt-10 text-center">
+              <p className="text-center text-gray-500 dark:text-gray-400">
+                Sorry no projects added yet.
+              </p>
+            </div>
+          )}
         </div>
       </section>
       <section className="w-full py-12 md:py-24 lg:py-32" id="skills">
@@ -166,16 +173,24 @@ export default async function Home() {
               </p>
             </div>
           </div>
-          <div className="flex w-full flex-col items-center justify-center pb-5 pt-5">
-            {experiences.map((skill, index) => (
-              // every 2nd element restarts to position 0
-              <ExperienceCard
-                key={index}
-                {...skill}
-                position={index % 2 === 0 ? 0 : 1}
-              />
-            ))}
-          </div>
+          {experiences.length > 0 ? (
+            <div className="flex w-full flex-col items-center justify-center pb-5 pt-5">
+              {experiences.map((skill, index) => (
+                // every 2nd element restarts to position 0
+                <ExperienceCard
+                  key={index}
+                  {...skill}
+                  position={index % 2 === 0 ? 0 : 1}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex w-full flex-col items-center justify-center space-y-4 pt-10 text-center">
+              <p className="text-center text-gray-500 dark:text-gray-400">
+                Sorry no experiences added yet.
+              </p>
+            </div>
+          )}
         </div>
       </section>
       <section className="w-full border-t py-12 md:py-24 lg:py-32" id="skills">

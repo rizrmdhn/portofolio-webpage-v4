@@ -130,7 +130,7 @@ export const columns: ColumnDef<Experiences>[] = [
     accessorKey: "action",
     header: "Action",
     cell: ({ row }) => {
-      const { execute, isExecuting } = useAction(deleteExperienceAction, {
+      const { execute } = useAction(deleteExperienceAction, {
         onSuccess(args) {
           if (args.data?.status === "success") {
             toast({

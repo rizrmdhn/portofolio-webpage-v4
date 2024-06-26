@@ -187,7 +187,7 @@ export const columns: ColumnDef<Projects>[] = [
       ) : (
         <Button
           disabled={isExecuting}
-          className="hidden w-[150px] p-4 xl:block"
+          className="hidden w-[150px] p-4 xl:flex"
           onClick={() => {
             execute({ id: row.original.id });
           }}
@@ -204,7 +204,7 @@ export const columns: ColumnDef<Projects>[] = [
     accessorKey: "action",
     header: "Action",
     cell: ({ row }) => {
-      const { execute, isExecuting } = useAction(deleteProjectAction, {
+      const { execute } = useAction(deleteProjectAction, {
         onSuccess(args) {
           if (args.data?.status === "success") {
             toast({

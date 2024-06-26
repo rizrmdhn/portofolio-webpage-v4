@@ -5,6 +5,7 @@ import {
   getViewsByTitle,
   incrementViews,
 } from "../queries/page-views-queries";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const genereatePageViewAction = async (title: string) => {
   const [prevPageView] = await getViewsByTitle(title);
@@ -19,6 +20,7 @@ export const genereatePageViewAction = async (title: string) => {
 };
 
 export const incrementPageViewAction = async (title: string) => {
+  noStore();
   const page = await genereatePageViewAction(title);
 
   await incrementViews(page.id);

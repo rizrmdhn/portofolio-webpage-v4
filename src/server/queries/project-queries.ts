@@ -27,6 +27,10 @@ export const getProjectDetail = async (projectId: string) => {
     },
   });
 
+  if (!project) {
+    throw new Error("Project not found");
+  }
+
   return project;
 };
 

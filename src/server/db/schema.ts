@@ -52,13 +52,6 @@ export const session = createTable(
       withTimezone: true,
       mode: "date",
     }).notNull(),
-    created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updated_at: timestamp("updated_at", {
-      withTimezone: true,
-      mode: "string",
-    }).notNull(),
   },
   (table) => {
     return {
@@ -151,5 +144,6 @@ export const pageViews = createTable(
   },
   (pageViewsIdx) => ({
     pageViewId: index("page_view_id_idx").on(pageViewsIdx.id),
+    pageViewTitleIndex: index("page_view_title_idx").on(pageViewsIdx.title),
   }),
 );

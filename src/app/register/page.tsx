@@ -1,4 +1,4 @@
-import RegisterForm from "@/app/_register/register-form";
+import RegisterForm from "./register-form";
 import React from "react";
 
 export default function LoginPage() {

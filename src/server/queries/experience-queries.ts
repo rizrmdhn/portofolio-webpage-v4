@@ -10,6 +10,14 @@ import {
 } from "@/schema/experiences";
 import { experiences } from "../db/schema";
 
+export const getNewestExperience = async () => {
+  const experience = await db.query.experiences.findMany({
+    orderBy: (experiences, { desc }) => [desc(experiences.created_at)],
+  });
+
+  return experience;
+};
+
 export const getAllExperiences = async () => {
   const experiences = await db.query.experiences.findMany();
 

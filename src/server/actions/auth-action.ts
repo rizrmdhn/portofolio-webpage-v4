@@ -63,6 +63,8 @@ export const register = actionClient
           name,
           email,
           password: hashedPassword,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         })
         .returning({
           id: users.id,

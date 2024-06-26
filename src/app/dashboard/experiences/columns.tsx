@@ -35,6 +35,11 @@ export const columns: ColumnDef<Experiences>[] = [
   {
     accessorKey: "description",
     header: "Description",
+    cell: ({ row }) => {
+      return (
+        <p className="line-clamp-2">{row.getValue<string>("description")}</p>
+      );
+    },
   },
   {
     accessorKey: "company",
@@ -49,6 +54,9 @@ export const columns: ColumnDef<Experiences>[] = [
   {
     accessorKey: "date",
     header: "Date",
+    cell: ({ row }) => {
+      return <p className="line-clamp-1">{row.getValue<string>("date")}</p>;
+    },
   },
   {
     accessorKey: "created_at",

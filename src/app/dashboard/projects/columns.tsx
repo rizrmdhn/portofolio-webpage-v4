@@ -41,6 +41,11 @@ export const columns: ColumnDef<Projects>[] = [
   {
     accessorKey: "description",
     header: "Description",
+    cell: ({ row }) => {
+      return (
+        <p className="line-clamp-1">{row.getValue<string>("description")}</p>
+      );
+    },
   },
   {
     accessorKey: "tech",

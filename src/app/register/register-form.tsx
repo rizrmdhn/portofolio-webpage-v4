@@ -23,12 +23,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 import { useAction } from "next-safe-action/hooks";
 import { register } from "@/server/actions/auth-action";
+import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
-  const { toast } = useToast();
+  const router = useRouter();
   const [type, setType] = useState<"text" | "password">("password");
 
   const { execute, isExecuting } = useAction(register, {
@@ -38,6 +39,8 @@ export default function RegisterForm() {
           description: args.data?.message,
           title: "Success",
         });
+
+        router.refresh();
       }
     },
     onError(args) {

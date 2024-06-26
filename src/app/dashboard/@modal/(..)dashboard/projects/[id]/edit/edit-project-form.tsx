@@ -39,7 +39,7 @@ export default function EditProjectForm({ id }: EditProjectFormProps) {
         });
       }
 
-      router.refresh();
+      router.back();
     },
     onError(args) {
       if (args.error.validationErrors) {
@@ -105,6 +105,9 @@ export default function EditProjectForm({ id }: EditProjectFormProps) {
                 readOnly: true,
                 disabled: true,
               },
+            },
+            description: {
+              fieldType: "textarea",
             },
             github_url: {
               label: "Github",

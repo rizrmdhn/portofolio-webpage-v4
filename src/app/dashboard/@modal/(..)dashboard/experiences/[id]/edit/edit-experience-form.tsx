@@ -28,6 +28,8 @@ export default function EditExperienceForm({ id }: EditProjectFormProps) {
     type: undefined,
   });
 
+  console.log("🚀 ~ EditExperienceForm ~ values:", values);
+
   const router = useRouter();
 
   const { execute, isExecuting } = useAction(updateExperienceAction, {
@@ -39,7 +41,7 @@ export default function EditExperienceForm({ id }: EditProjectFormProps) {
         });
       }
 
-      router.refresh();
+      router.back();
     },
     onError(args) {
       if (args.error.validationErrors) {
@@ -65,10 +67,10 @@ export default function EditExperienceForm({ id }: EditProjectFormProps) {
       setValues({
         id: id,
         name: data?.data?.data?.name,
-        description: data?.data?.data?.description ?? "",
-        company: data?.data?.data?.company ?? "",
-        date: data?.data?.data?.date ?? "",
-        type: data?.data?.data?.type ?? undefined,
+        description: data?.data?.data?.description || "",
+        company: data?.data?.data?.company,
+        date: data?.data?.data?.date!,
+        type: data?.data?.data?.type!,
       });
     }
   }, [data, setValues]);

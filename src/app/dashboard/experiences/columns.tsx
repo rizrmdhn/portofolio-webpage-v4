@@ -37,7 +37,9 @@ export const columns: ColumnDef<Experiences>[] = [
     header: "Description",
     cell: ({ row }) => {
       return (
-        <p className="line-clamp-2">{row.getValue<string>("description")}</p>
+        <p className="line-clamp-2 max-w-sm">
+          {row.getValue<string>("description")}
+        </p>
       );
     },
   },

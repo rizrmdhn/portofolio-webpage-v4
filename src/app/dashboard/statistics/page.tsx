@@ -12,7 +12,11 @@ export default async function SettingsPage() {
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Statistics</h1>
       </div>
-      {/* <DashboardSection /> */}
+      <div className="flex items-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Will be updated soon when shadcn released the new chart
+        </p>
+      </div>
     </>
   );
 }

@@ -30,6 +30,7 @@ export const createNewExperienceAction = authActionClient
 
         revalidatePath("/dashboard/experience");
         revalidatePath("/dashboard/experience/new");
+        revalidatePath("/");
         return response(
           "success",
           "Experience created successfully",
@@ -57,6 +58,7 @@ export const updateExperienceAction = authActionClient
 
         revalidatePath(`/dashboard/experience/${id}/edit`);
         revalidatePath(`/dashboard/experience`);
+        revalidatePath("/");
 
         return response(
           "success",

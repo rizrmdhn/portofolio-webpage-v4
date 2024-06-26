@@ -29,6 +29,7 @@ export const createNewProject = authActionClient
 
         revalidatePath("/dashboard/projects");
         revalidatePath("/dashboard/projects/new");
+        revalidatePath("/");
         return response("success", "Project created successfully", newProject);
       } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
@@ -54,7 +55,7 @@ export const updateProjectAction = authActionClient
 
         revalidatePath(`/dashboard/projects/${id}/edit`);
         revalidatePath(`/dashboard/projects`);
-
+        revalidatePath("/");
         return response("success", "Project updated successfully", newProject);
       } catch (error) {
         if (error instanceof Error) throw new Error(error.message);

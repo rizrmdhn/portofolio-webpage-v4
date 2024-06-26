@@ -9,6 +9,17 @@ import { addProjectSchema, updateProjectSchema } from "@/schema/projects";
 import { insertProjectView } from "./project-views-queries";
 import { utapi } from "../uploadthing";
 
+export const getNewestProject = async () => {
+  const project = await db.query.projects.findMany({
+    orderBy: (projects, { desc }) => [desc(projects.created_at)],
+    with: {
+      projectView: true,
+    },
+  });
+
+  return project;
+};
+
 export const getAllProjects = async () => {
   const projects = await db.query.projects.findMany({
     with: {

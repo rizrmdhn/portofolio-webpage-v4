@@ -43,7 +43,9 @@ export const columns: ColumnDef<Projects>[] = [
     header: "Description",
     cell: ({ row }) => {
       return (
-        <p className="line-clamp-1">{row.getValue<string>("description")}</p>
+        <p className="line-clamp-1 max-w-sm">
+          {row.getValue<string>("description")}
+        </p>
       );
     },
   },

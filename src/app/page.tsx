@@ -16,14 +16,14 @@ import {
 import { IoIosMail, IoLogoJavascript } from "react-icons/io";
 import { FaXTwitter } from "react-icons/fa6";
 import { ThemeButton } from "@/components/ThemeButton";
-import { getAllProjects } from "@/server/queries/project-queries";
+import { getNewestProject } from "@/server/queries/project-queries";
 import { Skills } from "@/types/skills";
 import { SocialMedia } from "@/types/social-media";
 import { getNewestExperience } from "@/server/queries/experience-queries";
 import { incrementPageViewAction } from "@/server/actions/page-view-action";
 
 export default async function Home() {
-  const project = await getAllProjects();
+  const project = await getNewestProject();
   const experiences = await getNewestExperience();
 
   const skills: Skills[] = [

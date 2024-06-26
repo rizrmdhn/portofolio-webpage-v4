@@ -8,7 +8,7 @@ export default function AddProjectModal() {
     <Modal className="w-dvw xl:w-full">
       <div className="flex flex-col gap-4">
         <DialogTitle className="text-3xl font-bold">
-          Add New Article
+          Add New Project
         </DialogTitle>
         <AddProjectForm />
       </div>

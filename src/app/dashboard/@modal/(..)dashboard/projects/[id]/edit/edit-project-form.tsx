@@ -106,6 +106,9 @@ export default function EditProjectForm({ id }: EditProjectFormProps) {
                 disabled: true,
               },
             },
+            description: {
+              fieldType: "textarea",
+            },
             github_url: {
               label: "Github",
             },

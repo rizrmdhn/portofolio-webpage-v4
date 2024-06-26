@@ -10,7 +10,7 @@ export default function EditProjectModal({
   return (
     <Modal className="w-dvw xl:w-full">
       <div className="flex flex-col gap-4">
-        <DialogTitle className="text-3xl font-bold">Edit Article</DialogTitle>
+        <DialogTitle className="text-3xl font-bold">Edit Project</DialogTitle>
         <EditProjectForm id={params.id} />
       </div>
     </Modal>

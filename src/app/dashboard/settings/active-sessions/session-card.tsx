@@ -14,7 +14,7 @@ type SessionCardProps = InferSelectModel<typeof session> & {
 export default function SessionCard({
   id,
   os,
-
+  country,
   browser,
   createdAt,
   ip,
@@ -51,6 +51,8 @@ export default function SessionCard({
           </div>
           <p className="flex flex-col gap-2 text-sm text-gray-500 dark:text-gray-400">
             {ip}
+            <br />
+            {country}
             <br />
             {browser}
           </p>

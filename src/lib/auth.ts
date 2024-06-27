@@ -42,6 +42,7 @@ interface DatabaseUserAttributes {
 interface DatabaseSessionAttributes {
   ip: string;
   os: string;
+  country: string;
   userAgent: string;
   browser: string;
   createdAt: string;

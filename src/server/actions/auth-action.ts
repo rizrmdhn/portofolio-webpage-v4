@@ -10,7 +10,7 @@ import response from "@/lib/response";
 import { cookies } from "next/headers";
 import { db } from "../db";
 import { users } from "../db/schema";
-import { getIP, getUserAgent } from "@/lib/ip-grabber";
+import { getIP, getUserAgent, getUserCountry } from "@/lib/ip-grabber";
 
 export const login = actionClient
   .schema(loginSchema)
@@ -27,11 +27,14 @@ export const login = actionClient
       throw new Error("Invalid user credentials");
     }
 
+    const userCountry = await getUserCountry(getIP());
+
     const session = await lucia.createSession(
       user.id,
       {
         ip: getIP(),
         os: `${getUserAgent().os.name} ${getUserAgent().os.version}`,
+        country: `${userCountry?.city}, ${userCountry?.countryCode}`,
         userAgent: getUserAgent().ua,
         browser: `${getUserAgent().browser.name} ${getUserAgent().browser.version}`,
         createdAt: new Date().toISOString(),

@@ -43,6 +43,7 @@ interface DatabaseSessionAttributes {
   ip: string;
   os: string;
   country: string;
+  timezone: string;
   userAgent: string;
   browser: string;
   createdAt: string;

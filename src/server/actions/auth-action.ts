@@ -35,6 +35,7 @@ export const login = actionClient
         ip: getIP(),
         os: `${getUserAgent().os.name} ${getUserAgent().os.version}`,
         country: `${userCountry?.city}, ${userCountry?.countryCode}`,
+        timezone: userCountry?.timezone,
         userAgent: getUserAgent().ua,
         browser: `${getUserAgent().browser.name} ${getUserAgent().browser.version}`,
         createdAt: new Date().toISOString(),

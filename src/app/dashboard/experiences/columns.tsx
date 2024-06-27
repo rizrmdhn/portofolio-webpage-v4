@@ -133,7 +133,7 @@ export const columns: ColumnDef<Experiences>[] = [
       return (
         <p className="hidden xl:block">
           {moment(row.original.created_at)
-            .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+            .locale("id")
             .format("dddd, DD MMMM YYYY HH:mm")}
         </p>
       );
@@ -161,7 +161,7 @@ export const columns: ColumnDef<Experiences>[] = [
       return (
         <p className="hidden xl:block">
           {moment(row.original.updated_at)
-            .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+            .locale("id")
             .format("dddd, DD MMMM YYYY HH:mm")}
         </p>
       );

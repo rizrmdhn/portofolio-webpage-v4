@@ -55,6 +55,7 @@ export const session = createTable(
     ip: text("ip").notNull(),
     os: text("os").notNull(),
     country: text("country").notNull(),
+    timezone: text("timezone").notNull(),
     userAgent: text("user_agent").notNull(),
     browser: text("browser").notNull(),
     createdAt: timestamp("created_at", {

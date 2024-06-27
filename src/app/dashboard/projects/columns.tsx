@@ -148,7 +148,7 @@ export const columns: ColumnDef<Projects>[] = [
     },
     cell: ({ row }) => {
       return (
-        <p className="line-clamp-1 hidden max-w-sm xl:block">
+        <p className="hidden max-w-sm xl:line-clamp-3">
           {row.getValue<string>("description")}
         </p>
       );

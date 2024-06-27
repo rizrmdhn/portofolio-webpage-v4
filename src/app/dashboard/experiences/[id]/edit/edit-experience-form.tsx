@@ -3,29 +3,30 @@
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
-import useGetDetailExperience from "@/hooks/useGetDetailExperience";
 import { updateExperienceSchema } from "@/schema/experiences";
 import { updateProjectAction } from "@/server/actions/project-action";
+import { type Experiences } from "@/types/expereince";
 import { LoaderCircle } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { type z } from "zod";
 
-type EditProjectFormProps = {
-  id: string;
-};
-
-export default function EditExperienceForm({ id }: EditProjectFormProps) {
-  const { data, status } = useGetDetailExperience(id);
-
+export default function EditExperienceForm({
+  id,
+  name,
+  description,
+  company,
+  date,
+  type,
+}: Experiences) {
   const [values, setValues] = useState<z.infer<typeof updateExperienceSchema>>({
     id: id,
-    name: "",
-    description: "",
-    company: "",
-    date: "",
-    type: undefined,
+    name: name,
+    description: description ?? "",
+    company: company,
+    date: date,
+    type: type,
   });
 
   const router = useRouter();
@@ -59,19 +60,6 @@ export default function EditExperienceForm({ id }: EditProjectFormProps) {
       });
     },
   });
-
-  useEffect(() => {
-    if (status === "success") {
-      setValues({
-        id: id,
-        name: data?.data?.data?.name,
-        description: data?.data?.data?.description ?? "",
-        company: data?.data?.data?.company ?? "",
-        date: data?.data?.data?.date ?? "",
-        type: data?.data?.data?.type ?? undefined,
-      });
-    }
-  }, [data, id, setValues, status]);
 
   return (
     <ScrollArea className="flex max-h-[650px] w-full flex-col items-center justify-center">

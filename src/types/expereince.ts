@@ -1,4 +1,4 @@
-import { experiences } from "@/server/db/schema";
-import { InferSelectModel } from "drizzle-orm";
+import { type experiences } from "@/server/db/schema";
+import { type InferSelectModel } from "drizzle-orm";
 
 export type Experiences = InferSelectModel<typeof experiences>;

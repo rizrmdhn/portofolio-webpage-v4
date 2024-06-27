@@ -3,29 +3,30 @@
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
-import useGetDetailProject from "@/hooks/useGetDetailProject";
 import { updateProjectSchema } from "@/schema/projects";
 import { updateProjectAction } from "@/server/actions/project-action";
+import { type Projects } from "@/types/project";
 import { LoaderCircle } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { z } from "zod";
+import React, { useState } from "react";
+import { type z } from "zod";
 
-type EditProjectFormProps = {
-  id: string;
-};
-
-export default function EditProjectForm({ id }: EditProjectFormProps) {
-  const { data, status } = useGetDetailProject(id);
-
+export default function EditProjectForm({
+  id,
+  description,
+  github_url,
+  name,
+  tech,
+  url,
+}: Projects) {
   const [values, setValues] = useState<z.infer<typeof updateProjectSchema>>({
     id: id,
-    name: "",
-    description: "",
-    tech: "",
-    github_url: "",
-    url: "",
+    name: name,
+    description: description ?? "",
+    tech: tech.toString(),
+    github_url: github_url ?? "",
+    url: url ?? "",
   });
 
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function EditProjectForm({ id }: EditProjectFormProps) {
         });
       }
 
-      router.back();
+      router.refresh();
     },
     onError(args) {
       if (args.error.validationErrors) {
@@ -59,21 +60,6 @@ export default function EditProjectForm({ id }: EditProjectFormProps) {
       });
     },
   });
-
-  useEffect(() => {
-    if (status === "success") {
-      setValues({
-        id: id,
-        name: data?.data?.data?.name,
-        description: data?.data?.data?.description ?? "",
-        tech: Array.isArray(data?.data?.data?.tech)
-          ? data?.data?.data?.tech.toString()
-          : data?.data?.data?.tech ?? "",
-        github_url: data?.data?.data?.github_url ?? "",
-        url: data?.data?.data?.url ?? "",
-      });
-    }
-  }, [data, setValues]);
 
   return (
     <ScrollArea className="flex max-h-[650px] w-full flex-col items-center justify-center">
@@ -105,9 +91,6 @@ export default function EditProjectForm({ id }: EditProjectFormProps) {
                 readOnly: true,
                 disabled: true,
               },
-            },
-            description: {
-              fieldType: "textarea",
             },
             github_url: {
               label: "Github",

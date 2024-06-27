@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { type session } from "@/server/db/schema";
 import { type InferSelectModel } from "drizzle-orm";
 import { Info, LaptopMinimal, Smartphone } from "lucide-react";
-import moment from "moment";
+import moment from "moment-timezone";
 import React from "react";
 import DeleteSessionForm from "./delete-session-form";
 
@@ -57,7 +57,9 @@ export default function SessionCard({
             {browser}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {moment(createdAt).format("HH:mm:ss, MMMM Do YYYY")}
+            {moment(createdAt)
+              .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+              .format("d/mm/yy, HH:mm")}
           </p>
           <DeleteSessionForm sessionId={id} />
         </div>

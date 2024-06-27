@@ -15,8 +15,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { ColumnDef } from "@tanstack/react-table";
-import moment from "moment";
+import type { ColumnDef, Row } from "@tanstack/react-table";
+import moment from "moment-timezone";
 import { UploadButton } from "@/lib/uploadthing";
 import { toast } from "@/components/ui/use-toast";
 import { useAction } from "next-safe-action/hooks";
@@ -26,11 +26,114 @@ import {
 } from "@/server/actions/project-action";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { InferSelectModel } from "drizzle-orm";
-import { projectViews, projects } from "@/server/db/schema";
+import { type InferSelectModel } from "drizzle-orm";
+import { type projectViews, type projects } from "@/server/db/schema";
 
 export type Projects = InferSelectModel<typeof projects> & {
   projectView: InferSelectModel<typeof projectViews>;
+};
+
+const ImageCell = ({ row }: { row: Row<Projects> }) => {
+  const router = useRouter();
+
+  const { execute, isExecuting } = useAction(deleteProjectImage, {
+    onSuccess(args) {
+      if (args.data?.status === "success") {
+        toast({
+          title: "Success",
+          description: args.data?.message,
+        });
+      }
+    },
+    onError(args) {
+      toast({
+        title: "Error",
+        description: args.error.serverError,
+        variant: "destructive",
+      });
+    },
+  });
+
+  return row.original.image_url === null ? (
+    <UploadButton
+      input={{
+        projectId: row.original.id,
+      }}
+      className="hidden ut-button:w-[150px] ut-button:p-4 ut-allowed-content:hidden ut-label:hidden xl:block"
+      endpoint="imageUploader"
+      onClientUploadComplete={() => {
+        // Do something with the response
+        toast({
+          title: "Success",
+          description: "Upload Completed",
+        });
+
+        router.refresh();
+      }}
+      onUploadError={(error: Error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+        });
+      }}
+    />
+  ) : (
+    <Button
+      disabled={isExecuting}
+      className="hidden w-[150px] p-4 xl:flex"
+      onClick={() => {
+        execute({ id: row.original.id });
+      }}
+    >
+      {isExecuting ? (
+        <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+      ) : null}
+      Delete
+    </Button>
+  );
+};
+
+const ActionCell = ({ row }: { row: Row<Projects> }) => {
+  const { execute } = useAction(deleteProjectAction, {
+    onSuccess(args) {
+      if (args.data?.status === "success") {
+        toast({
+          title: "Success",
+          description: args.data?.message,
+        });
+      }
+    },
+    onError(args) {
+      toast({
+        title: "Error",
+        description: args.error.serverError,
+        variant: "destructive",
+      });
+    },
+  });
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <EllipsisVertical className="size-4 text-black dark:text-white" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem asChild>
+          <Link
+            href={`/dashboard/projects/${row.original.id}/edit`}
+            className="flex flex-row"
+          >
+            <Pencil className="mr-4 size-4" />
+            Edit
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => execute({ id: row.original.id })}>
+          <Trash className="mr-4 size-4" />
+          Delete
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 };
 
 export const columns: ColumnDef<Projects>[] = [
@@ -101,7 +204,7 @@ export const columns: ColumnDef<Projects>[] = [
       return (
         <p className="hidden xl:block">
           {moment(row.original.created_at)
-            .locale("id")
+            .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
             .format("dddd, DD MMMM YYYY HH:mm")}
         </p>
       );
@@ -129,7 +232,7 @@ export const columns: ColumnDef<Projects>[] = [
       return (
         <p className="hidden xl:block">
           {moment(row.original.updated_at)
-            .locale("id")
+            .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
             .format("dddd, DD MMMM YYYY HH:mm")}
         </p>
       );
@@ -140,110 +243,11 @@ export const columns: ColumnDef<Projects>[] = [
     header: () => {
       return <p className="hidden xl:block">Image</p>;
     },
-    cell: ({ row }) => {
-      const router = useRouter();
-
-      const { execute, isExecuting } = useAction(deleteProjectImage, {
-        onSuccess(args) {
-          if (args.data?.status === "success") {
-            toast({
-              title: "Success",
-              description: args.data?.message,
-            });
-          }
-        },
-        onError(args) {
-          toast({
-            title: "Error",
-            description: args.error.serverError,
-            variant: "destructive",
-          });
-        },
-      });
-
-      return row.original.image_url === null ? (
-        <UploadButton
-          input={{
-            projectId: row.original.id,
-          }}
-          className="hidden ut-button:w-[150px] ut-button:p-4 ut-allowed-content:hidden ut-label:hidden xl:block"
-          endpoint="imageUploader"
-          onClientUploadComplete={() => {
-            // Do something with the response
-            toast({
-              title: "Success",
-              description: "Upload Completed",
-            });
-
-            router.refresh();
-          }}
-          onUploadError={(error: Error) => {
-            toast({
-              title: "Error",
-              description: error.message,
-            });
-          }}
-        />
-      ) : (
-        <Button
-          disabled={isExecuting}
-          className="hidden w-[150px] p-4 xl:flex"
-          onClick={() => {
-            execute({ id: row.original.id });
-          }}
-        >
-          {isExecuting ? (
-            <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-          ) : null}
-          Delete
-        </Button>
-      );
-    },
+    cell: ImageCell,
   },
   {
     accessorKey: "action",
     header: "Action",
-    cell: ({ row }) => {
-      const { execute } = useAction(deleteProjectAction, {
-        onSuccess(args) {
-          if (args.data?.status === "success") {
-            toast({
-              title: "Success",
-              description: args.data?.message,
-            });
-          }
-        },
-        onError(args) {
-          toast({
-            title: "Error",
-            description: args.error.serverError,
-            variant: "destructive",
-          });
-        },
-      });
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <EllipsisVertical className="size-4 text-black dark:text-white" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem asChild>
-              <Link
-                href={`/dashboard/projects/${row.original.id}/edit`}
-                className="flex flex-row"
-              >
-                <Pencil className="mr-4 size-4" />
-                Edit
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => execute({ id: row.original.id })}>
-              <Trash className="mr-4 size-4" />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ActionCell,
   },
 ];

@@ -29,6 +29,7 @@ declare module "lucia" {
     Lucia: typeof lucia;
     DatabaseUserAttributes: DatabaseUserAttributes;
     UserId: string;
+    DatabaseSessionAttributes: DatabaseSessionAttributes;
   }
 }
 
@@ -36,4 +37,12 @@ interface DatabaseUserAttributes {
   id: string;
   name: string;
   email: string;
+}
+
+interface DatabaseSessionAttributes {
+  ip: string;
+  os: string;
+  userAgent: string;
+  browser: string;
+  createdAt: string;
 }

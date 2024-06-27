@@ -34,7 +34,9 @@ export const columns: ColumnDef<Experiences>[] = [
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: () => {
+      return <p className="hidden xl:block">Description</p>;
+    },
     cell: ({ row }) => {
       return (
         <p className="line-clamp-2 max-w-sm">
@@ -51,13 +53,21 @@ export const columns: ColumnDef<Experiences>[] = [
   },
   {
     accessorKey: "type",
-    header: "Type",
+    header: () => {
+      return <p className="hidden xl:block">Type</p>;
+    },
   },
   {
     accessorKey: "date",
-    header: "Date",
+    header: () => {
+      return <p className="hidden xl:block">Date</p>;
+    },
     cell: ({ row }) => {
-      return <p className="line-clamp-1">{row.getValue<string>("date")}</p>;
+      return (
+        <p className="line-clamp-1 hidden xl:block">
+          {row.getValue<string>("date")}
+        </p>
+      );
     },
   },
   {
@@ -120,7 +130,7 @@ export const columns: ColumnDef<Experiences>[] = [
     accessorKey: "action",
     header: "Action",
     cell: ({ row }) => {
-      const { execute, isExecuting } = useAction(deleteExperienceAction, {
+      const { execute } = useAction(deleteExperienceAction, {
         onSuccess(args) {
           if (args.data?.status === "success") {
             toast({

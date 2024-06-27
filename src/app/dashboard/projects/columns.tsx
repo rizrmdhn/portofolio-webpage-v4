@@ -40,10 +40,12 @@ export const columns: ColumnDef<Projects>[] = [
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: () => {
+      return <p className="hidden xl:block">Description</p>;
+    },
     cell: ({ row }) => {
       return (
-        <p className="line-clamp-1 max-w-sm">
+        <p className="line-clamp-1 hidden max-w-sm xl:block">
           {row.getValue<string>("description")}
         </p>
       );
@@ -135,7 +137,9 @@ export const columns: ColumnDef<Projects>[] = [
   },
   {
     accessorKey: "image_url",
-    header: "Image",
+    header: () => {
+      return <p className="hidden xl:block">Image</p>;
+    },
     cell: ({ row }) => {
       const router = useRouter();
 
@@ -162,7 +166,7 @@ export const columns: ColumnDef<Projects>[] = [
           input={{
             projectId: row.original.id,
           }}
-          className="ut-button:w-[150px] ut-button:p-4 ut-allowed-content:hidden ut-label:hidden"
+          className="hidden ut-button:w-[150px] ut-button:p-4 ut-allowed-content:hidden ut-label:hidden xl:block"
           endpoint="imageUploader"
           onClientUploadComplete={() => {
             // Do something with the response
@@ -183,7 +187,7 @@ export const columns: ColumnDef<Projects>[] = [
       ) : (
         <Button
           disabled={isExecuting}
-          className="w-[150px] p-4"
+          className="hidden w-[150px] p-4 xl:flex"
           onClick={() => {
             execute({ id: row.original.id });
           }}
@@ -200,7 +204,7 @@ export const columns: ColumnDef<Projects>[] = [
     accessorKey: "action",
     header: "Action",
     cell: ({ row }) => {
-      const { execute, isExecuting } = useAction(deleteProjectAction, {
+      const { execute } = useAction(deleteProjectAction, {
         onSuccess(args) {
           if (args.data?.status === "success") {
             toast({

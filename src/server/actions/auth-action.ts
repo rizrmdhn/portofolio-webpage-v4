@@ -10,6 +10,7 @@ import response from "@/lib/response";
 import { cookies } from "next/headers";
 import { db } from "../db";
 import { users } from "../db/schema";
+import { getIP, getUserAgent } from "@/lib/ip-grabber";
 
 export const login = actionClient
   .schema(loginSchema)
@@ -28,13 +29,20 @@ export const login = actionClient
 
     const session = await lucia.createSession(
       user.id,
-      {},
+      {
+        ip: getIP(),
+        os: `${getUserAgent().os.name} ${getUserAgent().os.version}`,
+        userAgent: getUserAgent().ua,
+        browser: `${getUserAgent().browser.name} ${getUserAgent().browser.version}`,
+        createdAt: new Date().toISOString(),
+      },
       {
         sessionId: `session_${nanoid(16)}`,
       },
     );
 
     const sessionCookie = lucia.createSessionCookie(session.id);
+
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,

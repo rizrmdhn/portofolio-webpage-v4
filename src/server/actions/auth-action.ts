@@ -21,6 +21,10 @@ export const login = actionClient
       throw new Error("Invalid user credentials");
     }
 
+    if (user.email !== "rizrmdhn@admin.com") {
+      throw new Error("Invalid user credentials");
+    }
+
     const verifyPasswordResult = await verify(user.password!, password);
 
     if (!verifyPasswordResult) {

@@ -10,7 +10,7 @@ import { LoaderCircle } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { z } from "zod";
+import { type z } from "zod";
 
 type EditProjectFormProps = {
   id: string;
@@ -73,7 +73,7 @@ export default function EditProjectForm({ id }: EditProjectFormProps) {
         url: data?.data?.data?.url ?? "",
       });
     }
-  }, [data, setValues]);
+  }, [data, id, setValues, status]);
 
   return (
     <ScrollArea className="flex max-h-[650px] w-full flex-col items-center justify-center">

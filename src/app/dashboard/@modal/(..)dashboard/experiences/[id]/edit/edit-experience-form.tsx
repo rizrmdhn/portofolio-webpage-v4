@@ -28,8 +28,6 @@ export default function EditExperienceForm({ id }: EditProjectFormProps) {
     type: undefined,
   });
 
-  console.log("🚀 ~ EditExperienceForm ~ values:", values);
-
   const router = useRouter();
 
   const { execute, isExecuting } = useAction(updateExperienceAction, {

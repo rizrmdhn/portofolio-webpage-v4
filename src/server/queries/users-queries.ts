@@ -9,6 +9,8 @@ export const fetchUserDetail = async (userId: string) => {
     where: eq(users.id, userId),
   });
 
+  if (!user) throw new Error("User not found");
+
   return user;
 };
 

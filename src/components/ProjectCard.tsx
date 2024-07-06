@@ -13,7 +13,7 @@ import { type Projects } from "@/types/project";
 import { useAction } from "next-safe-action/hooks";
 import { incrementProjectView } from "@/server/actions/project-view-action";
 import { FolderGit } from "lucide-react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function ProjectCard({
@@ -28,7 +28,6 @@ export default function ProjectCard({
 }: Projects) {
   const searchParams = useSearchParams();
   const { execute } = useAction(incrementProjectView);
-  const { push } = useRouter();
 
   function renderTechList(tech: string[]) {
     return tech.map((t, index) => (
@@ -65,21 +64,19 @@ export default function ProjectCard({
 
   function renenderImage() {
     if (image_url) {
+      const params = new URLSearchParams(searchParams);
+      params.set("image", image_url);
+
       return (
-        <Image
-          alt={name}
-          className="aspect-[3/2] w-full overflow-hidden rounded-xl object-cover hover:cursor-pointer"
-          height="200"
-          src={image_url ? image_url : "/images/loader.png"}
-          width="300"
-          onClick={() => {
-            const params = new URLSearchParams(searchParams);
-
-            params.set("image", image_url);
-
-            push(`/projects/${id}/img?${params.toString()}`);
-          }}
-        />
+        <Link href={`/projects/${id}/img?${params.toString()}`}>
+          <Image
+            alt={name}
+            className="aspect-[3/2] w-full overflow-hidden rounded-xl object-cover hover:cursor-pointer"
+            height="200"
+            src={image_url ? image_url : "/images/loader.png"}
+            width="300"
+          />
+        </Link>
       );
     } else {
       return (

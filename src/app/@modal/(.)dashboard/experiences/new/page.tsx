@@ -5,7 +5,7 @@ import AddExperienceForm from "./add-experience-form";
 
 export default function AddExperienceModal() {
   return (
-    <Modal className="w-dvw xl:w-full">
+    <Modal className="max-w-lg xl:w-full">
       <div className="flex flex-col gap-4">
         <DialogTitle className="text-3xl font-bold">
           Add New Experience

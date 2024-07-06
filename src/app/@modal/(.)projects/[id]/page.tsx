@@ -14,7 +14,7 @@ export default async function ModalDetailProject({
   const detailProject = await getProjectDetail(params.id);
 
   return (
-    <Modal className="w-dvw xl:w-full">
+    <Modal className="max-w-lg xl:w-full">
       <DialogTitle className="text-3xl font-bold">Detail Project</DialogTitle>
       <div className="flex w-full flex-col items-center justify-center gap-5">
         <h1 className="self-start text-3xl font-bold">{detailProject.name}</h1>

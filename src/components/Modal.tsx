@@ -24,7 +24,11 @@ export default function Modal({ className, children }: ModalProps) {
   };
 
   return createPortal(
-    <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange}>
+    <Dialog
+      defaultOpen={true}
+      open={true}
+      onOpenChange={() => handleOpenChange()}
+    >
       <DialogOverlay>
         <DialogContent
           className={cn(className, "overflow-x-auto overflow-y-auto")}

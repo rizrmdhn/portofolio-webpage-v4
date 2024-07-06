@@ -4,10 +4,8 @@ import { redirect } from "next/navigation";
 
 export default async function Layout({
   children,
-  modal,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
 }) {
   const user = await getUser();
   if (!user) {
@@ -18,11 +16,5 @@ export default async function Layout({
     redirect("/");
   }
 
-  return (
-    <DashboardLayout user={user}>
-      {children}
-      {modal}
-      <div id="modal-root" />
-    </DashboardLayout>
-  );
+  return <DashboardLayout user={user}>{children}</DashboardLayout>;
 }

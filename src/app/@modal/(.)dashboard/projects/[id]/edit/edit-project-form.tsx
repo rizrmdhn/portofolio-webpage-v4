@@ -92,6 +92,9 @@ export default function EditProjectForm({
                 disabled: true,
               },
             },
+            description: {
+              fieldType: "textarea",
+            },
             github_url: {
               label: "Github",
             },

@@ -5,7 +5,10 @@ import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { nanoid } from "nanoid";
 import { projects } from "@/server/db/schema";
-import { addProjectSchema, updateProjectSchema } from "@/schema/projects";
+import {
+  type addProjectSchema,
+  type updateProjectSchema,
+} from "@/schema/projects";
 import { insertProjectView } from "./project-views-queries";
 import { utapi } from "../uploadthing";
 

@@ -13,6 +13,8 @@ import { type Projects } from "@/types/project";
 import { useAction } from "next-safe-action/hooks";
 import { incrementProjectView } from "@/server/actions/project-view-action";
 import { FolderGit } from "lucide-react";
+import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ProjectCard({
   id,
@@ -24,7 +26,9 @@ export default function ProjectCard({
   image_url,
   projectView,
 }: Projects) {
+  const searchParams = useSearchParams();
   const { execute } = useAction(incrementProjectView);
+  const { push } = useRouter();
 
   function renderTechList(tech: string[]) {
     return tech.map((t, index) => (
@@ -64,10 +68,17 @@ export default function ProjectCard({
       return (
         <Image
           alt={name}
-          className="aspect-[3/2] w-full overflow-hidden rounded-xl object-cover"
+          className="aspect-[3/2] w-full overflow-hidden rounded-xl object-cover hover:cursor-pointer"
           height="200"
           src={image_url ? image_url : "/images/loader.png"}
           width="300"
+          onClick={() => {
+            const params = new URLSearchParams(searchParams);
+
+            params.set("image", image_url);
+
+            push(`/projects/${id}/img?${params.toString()}`);
+          }}
         />
       );
     } else {
@@ -118,9 +129,17 @@ export default function ProjectCard({
             Source Code
           </a>
         </div>
-        <p className="self-end text-sm text-gray-500 dark:text-gray-400">
-          {projectView.count} views
-        </p>
+        <div className="flex w-full justify-between">
+          <Link
+            className="self-end border-b border-gray-500 text-sm text-gray-500 hover:border-gray-900 hover:text-gray-900 dark:border-gray-400 dark:text-gray-400"
+            href={`/projects/${id}`}
+          >
+            Details
+          </Link>
+          <p className="self-end text-sm text-gray-500 dark:text-gray-400">
+            {projectView.count} views
+          </p>
+        </div>
       </CardFooter>
     </Card>
   );

@@ -20,8 +20,10 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="en" className={`${poppins.className}`} suppressHydrationWarning>
@@ -37,6 +39,8 @@ export default function RootLayout({
         />
         <Providers>
           {children}
+          {modal}
+          <div id="modal-root" />
           <Toaster />
         </Providers>
       </body>

@@ -17,8 +17,8 @@ import { IoIosMail, IoLogoJavascript } from "react-icons/io";
 import { FaXTwitter } from "react-icons/fa6";
 import { ThemeButton } from "@/components/ThemeButton";
 import { getNewestProject } from "@/server/queries/project-queries";
-import { Skills } from "@/types/skills";
-import { SocialMedia } from "@/types/social-media";
+import { type Skills } from "@/types/skills";
+import { type SocialMedia } from "@/types/social-media";
 import { getNewestExperience } from "@/server/queries/experience-queries";
 import { incrementPageViewAction } from "@/server/actions/page-view-action";
 

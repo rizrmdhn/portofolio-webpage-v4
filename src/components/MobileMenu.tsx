@@ -23,12 +23,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import useAuthUser from "@/hooks/useAuthUser";
 import { useTheme } from "next-themes";
 import { useAction } from "next-safe-action/hooks";
 import { logout } from "@/server/actions/auth-action";
 import { useToast } from "./ui/use-toast";
-import { User } from "lucia";
+import { type User } from "lucia";
 import { Suspense } from "react";
 
 type MobileMenuProps = {

@@ -1,13 +1,6 @@
 "use client";
 
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
-import { AutoFormInputComponentProps } from "@/components/ui/auto-form/types";
-import {
-  FormControl,
-  FormDescription,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { addProjectSchema } from "@/schema/projects";

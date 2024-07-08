@@ -1,17 +1,17 @@
 "use client";
 import { Form } from "@/components/ui/form";
 import React from "react";
-import { DefaultValues, FormState, useForm } from "react-hook-form";
-import { z } from "zod";
+import { type DefaultValues, type FormState, useForm } from "react-hook-form";
+import { type z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import AutoFormObject from "./fields/object";
-import { Dependency, FieldConfig } from "./types";
+import { type Dependency, type FieldConfig } from "./types";
 import {
-  ZodObjectOrWrapped,
+  type ZodObjectOrWrapped,
   getDefaultValues,
   getObjectFormSchema,
 } from "./utils";
@@ -82,7 +82,13 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
     if (parsedValues.success) {
       onParsedValuesChange?.(parsedValues.data);
     }
-  }, [valuesString]);
+  }, [
+    formSchema,
+    onParsedValuesChange,
+    onValuesChangeProp,
+    values,
+    valuesString,
+  ]);
 
   const renderChildren =
     typeof children === "function"

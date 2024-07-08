@@ -1,6 +1,6 @@
 import DesktopMenu from "@/components/DesktopMenu";
 import MobileMenu from "@/components/MobileMenu";
-import { User } from "lucia";
+import { type User } from "lucia";
 
 type DashboardLayoutProps = {
   children: React.ReactNode;

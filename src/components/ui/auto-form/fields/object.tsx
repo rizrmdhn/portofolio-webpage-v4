@@ -5,10 +5,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FormField } from "@/components/ui/form";
-import { useForm, useFormContext } from "react-hook-form";
+import { type useForm, useFormContext } from "react-hook-form";
 import * as z from "zod";
 import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from "../config";
-import { Dependency, FieldConfig, FieldConfigItem } from "../types";
+import {
+  type Dependency,
+  type FieldConfig,
+  type FieldConfigItem,
+} from "../types";
 import {
   beautifyObjectName,
   getBaseSchema,
@@ -42,7 +46,7 @@ export default function AutoFormObject<
   if (!schema) {
     return null;
   }
-  const { shape } = getBaseSchema<SchemaType>(schema) || {};
+  const { shape } = getBaseSchema<SchemaType>(schema) ?? {};
 
   if (!shape) {
     return null;
@@ -116,9 +120,9 @@ export default function AutoFormObject<
         const fieldConfigItem: FieldConfigItem = fieldConfig?.[name] ?? {};
         const zodInputProps = zodToHtmlInputProps(item);
         const isRequired =
-          isRequiredByDependency ||
-          zodInputProps.required ||
-          fieldConfigItem.inputProps?.required ||
+          isRequiredByDependency ??
+          zodInputProps.required ??
+          fieldConfigItem.inputProps?.required ??
           false;
 
         if (overrideOptions) {
@@ -151,7 +155,7 @@ export default function AutoFormObject<
                 ...zodToHtmlInputProps(item),
                 ...field,
                 ...fieldConfigItem.inputProps,
-                disabled: fieldConfigItem.inputProps?.disabled || isDisabled,
+                disabled: fieldConfigItem.inputProps?.disabled ?? isDisabled,
                 ref: undefined,
                 value: value,
               };

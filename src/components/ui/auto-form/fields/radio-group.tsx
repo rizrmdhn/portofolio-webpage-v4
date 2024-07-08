@@ -5,10 +5,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import * as z from "zod";
+import type * as z from "zod";
 import AutoFormLabel from "../common/label";
 import AutoFormTooltip from "../common/tooltip";
-import { AutoFormInputComponentProps } from "../types";
+import { type AutoFormInputComponentProps } from "../types";
 import { getBaseSchema } from "../utils";
 
 export default function AutoFormRadioGroup({
@@ -33,7 +33,7 @@ export default function AutoFormRadioGroup({
     <div>
       <FormItem>
         <AutoFormLabel
-          label={fieldConfigItem?.label || label}
+          label={fieldConfigItem?.label ?? label}
           isRequired={isRequired}
         />
         <FormControl>

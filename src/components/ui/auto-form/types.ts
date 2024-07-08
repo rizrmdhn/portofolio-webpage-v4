@@ -1,6 +1,6 @@
-import { ControllerRenderProps, FieldValues } from "react-hook-form";
-import * as z from "zod";
-import { INPUT_COMPONENTS } from "./config";
+import { type ControllerRenderProps, type FieldValues } from "react-hook-form";
+import type * as z from "zod";
+import { type INPUT_COMPONENTS } from "./config";
 
 export type FieldConfigItem = {
   description?: React.ReactNode;

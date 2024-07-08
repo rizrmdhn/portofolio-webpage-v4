@@ -2,7 +2,7 @@ import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import AutoFormLabel from "../common/label";
 import AutoFormTooltip from "../common/tooltip";
-import { AutoFormInputComponentProps } from "../types";
+import { type AutoFormInputComponentProps } from "../types";
 
 export default function AutoFormNumber({
   label,
@@ -17,7 +17,7 @@ export default function AutoFormNumber({
     <FormItem>
       {showLabel && (
         <AutoFormLabel
-          label={fieldConfigItem?.label || label}
+          label={fieldConfigItem?.label ?? label}
           isRequired={isRequired}
         />
       )}

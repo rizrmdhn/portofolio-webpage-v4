@@ -1,4 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
+import DashboardChart from "./chart";
+import { getAllProjects } from "@/server/queries/project-queries";
 
 export const metadata = {
   title: "Settings | My Portfolio",
@@ -7,15 +9,17 @@ export const metadata = {
 };
 
 export default async function SettingsPage() {
+  const projects = await getAllProjects();
+
   return (
     <>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Statistics</h1>
       </div>
-      <div className="flex items-center">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Will be updated soon when shadcn released the new chart
-        </p>
+      <div className="flex items-center justify-center">
+        <Suspense fallback={<div>Loading...</div>}>
+          <DashboardChart chartData={projects} />
+        </Suspense>
       </div>
     </>
   );

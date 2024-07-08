@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import useWindowSize from "@/hooks/useWindowSize";
+import { useEffect, useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -27,11 +29,35 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const windowSize = useWindowSize();
+
+  const [columnVisibility, setColumnVisibility] = useState<
+    Record<string, boolean>
+  >({});
+
   const table = useReactTable({
     data,
     columns,
+    state: {
+      columnVisibility,
+    },
     getCoreRowModel: getCoreRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
   });
+
+  useEffect(() => {
+    if (windowSize) {
+      setColumnVisibility({
+        name: true,
+        description: windowSize === "sm" ? false : true,
+        company: true,
+        type: windowSize === "sm" ? false : true,
+        date: windowSize === "sm" ? false : true,
+        created_at: windowSize === "sm" ? false : true,
+        updated_at: windowSize === "sm" ? false : true,
+      });
+    }
+  }, [windowSize]);
 
   return (
     <div className="flex w-full flex-col gap-4">

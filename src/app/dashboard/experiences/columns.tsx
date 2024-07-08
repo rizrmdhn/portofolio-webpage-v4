@@ -89,7 +89,7 @@ export const columns: ColumnDef<Experiences>[] = [
   {
     accessorKey: "company",
     header: () => {
-      return <p className="hidden xl:block">Company</p>;
+      return <p>Company</p>;
     },
   },
   {

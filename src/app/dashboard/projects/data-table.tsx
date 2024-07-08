@@ -6,7 +6,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -17,6 +16,8 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import useWindowSize from "@/hooks/useWindowSize";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -27,11 +28,42 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const windowSize = useWindowSize();
+
+  const [columnVisibility, setColumnVisibility] = useState<
+    Record<string, boolean>
+  >({
+    name: true,
+    tech: false,
+    description: false,
+    image_url: false,
+    created_at: false,
+    updated_at: false,
+  });
+
   const table = useReactTable({
     data,
     columns,
+    state: {
+      columnVisibility,
+    },
     getCoreRowModel: getCoreRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
   });
+
+  useEffect(() => {
+    if (windowSize) {
+      setColumnVisibility({
+        name: true,
+        tech: windowSize === "sm" ? false : true,
+        image_url: windowSize === "sm" ? false : true,
+        description: windowSize === "sm" ? false : true,
+        created_at: windowSize === "sm" ? false : true,
+        updated_at: windowSize === "sm" ? false : true,
+        projectView: windowSize === "sm" ? false : true,
+      });
+    }
+  }, [windowSize]);
 
   return (
     <div className="flex w-full flex-col gap-4">

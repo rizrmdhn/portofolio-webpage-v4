@@ -13,7 +13,6 @@ export default function SourceCodeButton({
   id,
   github_url,
 }: SourceCodeButtonProps) {
-  console.log("🚀 ~ github_url:", github_url);
   const { execute } = useAction(incrementProjectView);
 
   return (

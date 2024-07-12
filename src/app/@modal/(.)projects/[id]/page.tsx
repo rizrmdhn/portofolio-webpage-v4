@@ -1,7 +1,7 @@
 import Modal from "@/components/Modal";
 import SourceCodeButton from "@/components/SourceCodeButton";
 import { DialogTitle } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getProjectDetail } from "@/server/queries/project-queries";
 import { FolderGit } from "lucide-react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ export default async function ModalDetailProject({
   const detailProject = await getProjectDetail(params.id);
 
   return (
-    <Modal className="max-w-lg xl:w-full">
+    <Modal className="max-w-md xl:w-full">
       <DialogTitle className="text-3xl font-bold">Detail Project</DialogTitle>
       <div className="flex w-full flex-col items-center justify-center gap-5">
         <h1 className="self-start text-3xl font-bold">{detailProject.name}</h1>
@@ -36,8 +36,9 @@ export default async function ModalDetailProject({
             <FolderGit className="m-auto h-20 w-20" />
           </div>
         )}
-        <ScrollArea className="flex max-h-[650px] w-full flex-col items-center justify-center">
+        <ScrollArea className="flex h-[350px] w-full flex-col items-center justify-center">
           <p className="text-lg font-medium">{detailProject.description}</p>
+          <ScrollBar orientation="vertical" />
         </ScrollArea>
         <div className="flex w-full flex-col items-center justify-center gap-5">
           <p className="text-lg font-medium">Tech Stack</p>

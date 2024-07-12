@@ -52,6 +52,9 @@ export default function AddProjectForm() {
           }}
           formSchema={addProjectSchema}
           fieldConfig={{
+            description: {
+              fieldType: "textarea",
+            },
             github_url: {
               label: "Github",
             },

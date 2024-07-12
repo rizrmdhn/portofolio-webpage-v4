@@ -36,7 +36,7 @@ export default async function ModalDetailProject({
             <FolderGit className="m-auto h-20 w-20" />
           </div>
         )}
-        <ScrollArea className="flex h-[350px] w-full flex-col items-center justify-center">
+        <ScrollArea className="flex h-[200px] w-full flex-col items-center justify-center">
           <p className="text-lg font-medium">{detailProject.description}</p>
           <ScrollBar orientation="vertical" />
         </ScrollArea>

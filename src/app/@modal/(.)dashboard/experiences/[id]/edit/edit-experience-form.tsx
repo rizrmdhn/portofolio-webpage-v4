@@ -97,11 +97,8 @@ export default function EditExperienceForm({
             },
           }}
         >
-          <AutoFormSubmit
-            disabled={isExecuting || status === "pending"}
-            className="w-full"
-          >
-            {isExecuting || status === "pending" ? (
+          <AutoFormSubmit disabled={isExecuting} className="w-full">
+            {isExecuting ? (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
             Submit

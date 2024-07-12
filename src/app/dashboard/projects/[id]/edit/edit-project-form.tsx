@@ -20,7 +20,7 @@ export default function EditProjectForm({
   tech,
   url,
 }: Projects) {
-  const [values, setValues] = useState<z.infer<typeof updateProjectSchema>>({
+  const [values] = useState<z.infer<typeof updateProjectSchema>>({
     id: id,
     name: name,
     description: description ?? "",
@@ -66,20 +66,6 @@ export default function EditProjectForm({
       <div className="flex flex-col items-center justify-center p-4">
         <AutoForm
           values={values}
-          onParsedValuesChange={(data) => {
-            if (data.id !== id) {
-              return toast({
-                title: "Error",
-                description: "Something went wrong",
-                variant: "destructive",
-              });
-            }
-
-            setValues({
-              id: data.id,
-              ...data,
-            });
-          }}
           onSubmit={(data) => {
             execute({ ...data, id: id });
           }}
@@ -104,11 +90,8 @@ export default function EditProjectForm({
             },
           }}
         >
-          <AutoFormSubmit
-            disabled={isExecuting || status === "pending"}
-            className="w-full"
-          >
-            {isExecuting || status === "pending" ? (
+          <AutoFormSubmit disabled={isExecuting} className="w-full">
+            {isExecuting ? (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
             Submit

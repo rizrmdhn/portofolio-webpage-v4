@@ -138,6 +138,29 @@ const ActionCell = ({ row }: { row: Row<Projects> }) => {
 
 export const columns: ColumnDef<Projects>[] = [
   {
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          No
+          {column.getIsSorted() === "asc" ? (
+            <ArrowDown className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowUp className="ml-2 size-4" />
+          ) : null}
+        </Button>
+      );
+    },
+    accessorKey: "No",
+    accessorFn: (_, rowIndex) => rowIndex + 1,
+    id: "index",
+    sortingFn: "basic",
+    cell: (info) => info.getValue(),
+  },
+  {
     accessorKey: "name",
     header: "Name",
   },
@@ -180,15 +203,30 @@ export const columns: ColumnDef<Projects>[] = [
   },
   {
     accessorKey: "projectView.count",
-    header: "Views",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="px-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Views
+          {column.getIsSorted() === "asc" ? (
+            <ArrowDown className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowUp className="ml-2 size-4" />
+          ) : null}
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
         <Button
-          className="hidden xl:block"
           variant="ghost"
+          className="px-0 hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Created At
@@ -215,8 +253,8 @@ export const columns: ColumnDef<Projects>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className="hidden xl:block"
           variant="ghost"
+          className="px-0 hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Updated At

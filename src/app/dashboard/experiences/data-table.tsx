@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({
       setColumnVisibility({
         name: true,
         description: windowSize === "sm" ? false : true,
-        company: true,
+        company: windowSize === "sm" ? false : true,
         type: windowSize === "sm" ? false : true,
         date: windowSize === "sm" ? false : true,
         created_at: windowSize === "sm" ? false : true,

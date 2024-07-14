@@ -58,7 +58,7 @@ export default function SessionCard({
             {browser}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {moment(createdAt).tz(timezone).format("d/mm/yy, HH:mm")}
+            {moment(createdAt).tz(`${timezone}`).format("d/mm/yy, HH:mm")}
           </p>
           <DeleteSessionForm sessionId={id} />
         </div>

@@ -36,7 +36,7 @@ export default function SessionCard({
   }
 
   return (
-    <Card className="w-96">
+    <Card className="w-80 xl:w-96">
       <div className="flex flex-row items-center gap-5 p-5">
         {renderOsIcon()}
         <div className="flex w-full flex-col gap-5">

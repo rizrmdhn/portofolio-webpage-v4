@@ -69,7 +69,7 @@ export default function DesktopMenu() {
 
           <Accordion type="multiple">
             <AccordionItem value="item-1" className="border-none">
-              <AccordionTrigger className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:cursor-pointer hover:text-primary">
+              <AccordionTrigger className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:cursor-pointer hover:text-primary hover:no-underline">
                 <p className="flex items-center gap-3">
                   <Settings className="h-4 w-4" />
                   Settings

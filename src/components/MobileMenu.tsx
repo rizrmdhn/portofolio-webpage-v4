@@ -6,8 +6,10 @@ import {
   FolderGit2,
   Home,
   Menu,
+  MonitorSmartphone,
   Package2,
   Settings,
+  UserRoundCog,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +31,12 @@ import { logout } from "@/server/actions/auth-action";
 import { useToast } from "./ui/use-toast";
 import { type User } from "lucia";
 import { Suspense } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
 
 type MobileMenuProps = {
   user: User;
@@ -109,15 +117,36 @@ export default function MobileMenu({ user }: MobileMenuProps) {
               <AreaChart className="h-4 w-4" />
               Statistics
             </Link>
-            <Link
-              href={"/dashboard/settings"}
-              className={isActiveMobile(
-                location.includes("/dashboard/settings"),
-              )}
-            >
-              <Settings className="h-4 w-4" />
-              Settings
-            </Link>
+            <Accordion type="multiple">
+              <AccordionItem value="item-1" className="border-none">
+                <AccordionTrigger className="flex items-center gap-3 rounded-lg py-2 text-muted-foreground transition-all hover:cursor-pointer hover:text-primary hover:no-underline">
+                  <p className="flex items-center gap-4 pl-0.5">
+                    <Settings className="h-4 w-4" />
+                    Settings
+                  </p>
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col items-start gap-2 rounded-lg px-3 py-1 text-muted-foreground transition-all hover:cursor-pointer hover:text-primary">
+                  <Link
+                    href={"/dashboard/settings/account-settings"}
+                    className={isActiveMobile(
+                      location.includes("/dashboard/settings/account-settings"),
+                    )}
+                  >
+                    <UserRoundCog className="h-4 w-4" />
+                    Account Settings
+                  </Link>
+                  <Link
+                    href={"/dashboard/settings/active-sessions"}
+                    className={isActiveMobile(
+                      location.includes("/dashboard/settings/active-sessions"),
+                    )}
+                  >
+                    <MonitorSmartphone className="h-4 w-4" />
+                    Active Sessions
+                  </Link>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </nav>
         </SheetContent>
       </Sheet>

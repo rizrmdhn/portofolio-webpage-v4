@@ -61,7 +61,9 @@ export const session = createTable(
     createdAt: timestamp("created_at", {
       withTimezone: true,
       mode: "string",
-    }).notNull(),
+    })
+      .defaultNow()
+      .notNull(),
   },
   (table) => {
     return {

@@ -20,7 +20,6 @@ import { getNewestProject } from "@/server/queries/project-queries";
 import { type Skills } from "@/types/skills";
 import { type SocialMedia } from "@/types/social-media";
 import { getNewestExperience } from "@/server/queries/experience-queries";
-import { incrementPageViewAction } from "@/server/actions/page-view-action";
 
 export default async function Home() {
   const project = await getNewestProject();
@@ -83,8 +82,6 @@ export default async function Home() {
       link: "mailto:rizrmdhn.work@gmail.com",
     },
   ];
-
-  await incrementPageViewAction("home page");
 
   return (
     <div className="flex min-h-[100dvh] flex-col">

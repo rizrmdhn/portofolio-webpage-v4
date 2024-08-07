@@ -94,11 +94,11 @@ export default async function Home() {
                   Noor Rizki Ramadhan
                 </h1>
                 <h2 className="text-xl font-medium text-gray-500 dark:text-gray-400">
-                  Fullstack Developer
+                  Web Developer
                 </h2>
                 <p className="max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl">
-                  Im a freelance fullstack developer, Im passionate about
-                  technology and I love to learn new things.
+                  Im a freelance web developer, Im passionate about technology
+                  and I love to learn new things.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">

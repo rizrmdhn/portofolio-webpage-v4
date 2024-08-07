@@ -20,6 +20,7 @@ import { getNewestProject } from "@/server/queries/project-queries";
 import { type Skills } from "@/types/skills";
 import { type SocialMedia } from "@/types/social-media";
 import { getNewestExperience } from "@/server/queries/experience-queries";
+import { Suspense } from "react";
 
 export default async function Home() {
   const project = await getNewestProject();
@@ -145,9 +146,11 @@ export default async function Home() {
           </div>
           {project.length > 0 ? (
             <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
-              {project.map((project) => (
-                <ProjectCard key={project.id} {...project} />
-              ))}
+              <Suspense fallback={<div>Loading...</div>}>
+                {project.map((project, index) => (
+                  <ProjectCard key={index} {...project} />
+                ))}
+              </Suspense>
             </div>
           ) : (
             <div className="flex w-full flex-col items-center justify-center space-y-4 pt-10 text-center">

@@ -5,8 +5,8 @@ import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { nanoid } from "nanoid";
 import {
-  addExperienceSchema,
-  updateExperienceSchema,
+  type addExperienceSchema,
+  type updateExperienceSchema,
 } from "@/schema/experiences";
 import { experiences } from "../db/schema";
 

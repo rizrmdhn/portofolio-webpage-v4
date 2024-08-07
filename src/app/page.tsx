@@ -21,6 +21,7 @@ import { type Skills } from "@/types/skills";
 import { type SocialMedia } from "@/types/social-media";
 import { getNewestExperience } from "@/server/queries/experience-queries";
 import { Suspense } from "react";
+import ProjectCardLoader from "@/components/ProjectCardLoader";
 
 export default async function Home() {
   const project = await getNewestProject();
@@ -146,7 +147,11 @@ export default async function Home() {
           </div>
           {project.length > 0 ? (
             <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense
+                fallback={Array.from({ length: 6 }).map((_, index) => (
+                  <ProjectCardLoader key={index} />
+                ))}
+              >
                 {project.map((project, index) => (
                   <ProjectCard key={index} {...project} />
                 ))}

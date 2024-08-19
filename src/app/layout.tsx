@@ -20,10 +20,12 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-  modal,
+  // modal,
+  sheet,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
+  // modal: React.ReactNode;
+  sheet: React.ReactNode;
 }) {
   return (
     <html lang="en" className={`${poppins.className}`} suppressHydrationWarning>
@@ -39,8 +41,10 @@ export default function RootLayout({
         />
         <Providers>
           {children}
-          {modal}
+          {/* {modal} */}
+          {sheet}
           <div id="modal-root" />
+          <div id="sheet-root" />
           <Toaster />
         </Providers>
       </body>

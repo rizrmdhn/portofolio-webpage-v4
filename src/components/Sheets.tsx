@@ -20,6 +20,7 @@ export default function Sheets({ className, children }: ModalProps) {
     setOpen(!open);
     setTimeout(() => {
       router.back();
+      setOpen(true);
     }, 300);
   };
 

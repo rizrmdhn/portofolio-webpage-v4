@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { createPortal } from "react-dom";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useSheetStore } from "@/provider/sheet-store-provider";
 
 type ModalProps = {
   className?: string;
@@ -12,7 +12,7 @@ type ModalProps = {
 };
 
 export default function Sheets({ className, children }: ModalProps) {
-  const [open, setOpen] = useState(true);
+  const { open, setOpen } = useSheetStore((state) => state);
 
   const router = useRouter();
 

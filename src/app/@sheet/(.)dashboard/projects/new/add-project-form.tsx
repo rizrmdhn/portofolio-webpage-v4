@@ -3,6 +3,7 @@
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
+import { useSheetStore } from "@/provider/sheet-store-provider";
 import { addProjectSchema } from "@/schema/projects";
 import { createNewProject } from "@/server/actions/project-action";
 import { LoaderCircle } from "lucide-react";
@@ -13,6 +14,8 @@ import React from "react";
 export default function AddProjectForm() {
   const router = useRouter();
 
+  const { setOpen } = useSheetStore((state) => state);
+
   const { execute, isExecuting } = useAction(createNewProject, {
     onSuccess(args) {
       if (args.data?.status === "success") {
@@ -22,7 +25,12 @@ export default function AddProjectForm() {
         });
       }
 
-      router.back();
+      setOpen(false);
+
+      setTimeout(() => {
+        router.back();
+        setOpen(true);
+      }, 300);
     },
     onError(args) {
       if (args.error.validationErrors) {

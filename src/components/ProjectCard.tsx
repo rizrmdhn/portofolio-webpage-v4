@@ -111,7 +111,7 @@ export default function ProjectCard({
                 execute({ id });
               }}
             >
-              Live Demo
+              Website
             </a>
           )}
           <a

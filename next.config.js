@@ -20,6 +20,10 @@ const config = {
         protocol: "https",
         hostname: "utfs.io",
       },
+      {
+        protocol: "https",
+        hostname: "fcxfu9avef.ufs.sh",
+      },
     ],
   },
   webpack: (config, { isServer }) => {

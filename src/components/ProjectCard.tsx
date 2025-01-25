@@ -32,14 +32,13 @@ export default function ProjectCard({
   function renderTechList(tech: string[]) {
     return tech.map((t, index) => (
       <div
-        className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400"
+        className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400"
         key={index}
       >
         <span className="dark:text-gray-40 text-gray-500">
           {t}
           {index !== tech.length - 1 && ","}
         </span>
-        {}
       </div>
     ));
   }
@@ -99,7 +98,9 @@ export default function ProjectCard({
         </p>
       </CardContent>
       <CardFooter className="flex flex-col items-start justify-start gap-4">
-        <div className="flex items-center gap-2">{renderTechList(tech)}</div>
+        <div className="flex flex-wrap items-center gap-2">
+          {renderTechList(tech)}
+        </div>
         <div className="flex gap-2">
           {url && (
             <a

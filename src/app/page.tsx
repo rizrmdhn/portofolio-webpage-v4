@@ -4,7 +4,6 @@ import SkillCard from "@/components/SkillCard";
 import ProjectCard from "@/components/ProjectCard";
 import SocialMediaCard from "@/components/SocialMediaCard";
 import ExperienceCard from "@/components/ExperienceCard";
-import HeroImage from "@/assets/images/avatar.jpg";
 import { FaGithub, FaLinkedin, FaReact } from "react-icons/fa";
 import {
   SiDart,
@@ -124,7 +123,7 @@ export default async function Home() {
               alt="Hero"
               className="mx-auto aspect-square overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
               height="550"
-              src={HeroImage}
+              src="/avatar.jpg"
               width="550"
             />
           </div>

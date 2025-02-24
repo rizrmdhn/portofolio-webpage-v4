@@ -13,6 +13,7 @@ export const env = createEnv({
       .default("development"),
     UPLOADTHING_SECRET: z.string().min(1),
     UPLOADTHING_APP_ID: z.string().min(1),
+    JWT_SECRET: z.string().min(1),
   },
 
   /**
@@ -33,6 +34,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
+    JWT_SECRET: process.env.JWT_SECRET,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

@@ -7,7 +7,7 @@ import TechStackV2 from "@/components/TechStackV2";
 import Experience from "./experience";
 import Project from "./project";
 
-export default async function Page() {
+export default function Page() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

@@ -159,3 +159,19 @@ export const pageViews = createTable(
     pageViewTitleIndex: index("page_view_title_idx").on(pageViewsIdx.title),
   }),
 );
+
+export const messages = createTable(
+  "messages",
+  {
+    id: text("id").primaryKey().notNull(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    message: text("message").notNull(),
+    created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (messagesIdx) => ({
+    messageId: index("message_id_idx").on(messagesIdx.id),
+  }),
+);

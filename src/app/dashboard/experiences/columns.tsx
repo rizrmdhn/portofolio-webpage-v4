@@ -25,8 +25,12 @@ import { api } from "@/trpc/react";
 export type Experiences = InferSelectModel<typeof experiences>;
 
 const ActionCell = ({ row }: { row: Row<Experiences> }) => {
+  const utils = api.useUtils();
+
   const deleteMutation = api.experience.delete.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      await utils.experience.all.invalidate();
+
       toast({
         title: "Success",
         description: "Experience deleted successfully",

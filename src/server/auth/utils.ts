@@ -1,6 +1,6 @@
 import "server-only";
 
-import { decrypt, Session, SessionUser } from ".";
+import { decrypt, type Session, type SessionUser } from ".";
 import { cookies } from "next/headers";
 
 export async function createTokenCookie(

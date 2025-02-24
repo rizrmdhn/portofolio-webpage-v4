@@ -1,5 +1,6 @@
 import DashboardLayout from "@/layout/DashboardLayout";
 import getCurrentSession from "@/server/auth/sessions";
+import { api, HydrateClient } from "@/trpc/server";
 import { redirect } from "next/navigation";
 
 export default async function Layout({
@@ -16,5 +17,11 @@ export default async function Layout({
     redirect("/");
   }
 
-  return <DashboardLayout user={user}>{children}</DashboardLayout>;
+  api.pageView.view.prefetch();
+
+  return (
+    <DashboardLayout user={user}>
+      <HydrateClient>{children}</HydrateClient>
+    </DashboardLayout>
+  );
 }

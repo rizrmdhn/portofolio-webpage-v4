@@ -5,6 +5,7 @@ import {
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import {
   deleteExperience,
+  getAllExperiences,
   getExperienceDetail,
   getNewestExperience,
   insertExperience,
@@ -14,6 +15,12 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 export const experienceRouter = createTRPCRouter({
+  all: protectedProcedure.query(async () => {
+    const experiences = await getAllExperiences();
+
+    return experiences;
+  }),
+
   list: publicProcedure.query(async () => {
     const experiences = await getNewestExperience();
 

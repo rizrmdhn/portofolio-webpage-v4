@@ -1,6 +1,7 @@
 import { addProjectSchema, updateProjectSchema } from "@/schema/projects";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import {
+  getAllProjects,
   getNewestProject,
   getProjectDetail,
   insertImageToProject,
@@ -13,6 +14,12 @@ import { utapi } from "@/server/uploadthing";
 import { incrementProjectViews } from "@/server/queries/project-views-queries";
 
 export const projectRouter = createTRPCRouter({
+  all: protectedProcedure.query(async () => {
+    const projects = await getAllProjects();
+
+    return projects;
+  }),
+
   list: publicProcedure.query(async () => {
     const projects = await getNewestProject();
 

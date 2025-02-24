@@ -19,36 +19,33 @@ import type { ColumnDef, Row } from "@tanstack/react-table";
 import moment from "moment-timezone";
 import { UploadButton } from "@/lib/uploadthing";
 import { toast } from "@/components/ui/use-toast";
-import { useAction } from "next-safe-action/hooks";
-import {
-  deleteProjectAction,
-  deleteProjectImage,
-} from "@/server/actions/project-action";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { type InferSelectModel } from "drizzle-orm";
 import { type projectViews, type projects } from "@/server/db/schema";
+import { api } from "@/trpc/react";
 
 export type Projects = InferSelectModel<typeof projects> & {
   projectView: InferSelectModel<typeof projectViews>;
 };
 
 const ImageCell = ({ row }: { row: Row<Projects> }) => {
+  const utils = api.useUtils();
   const router = useRouter();
 
-  const { execute, isExecuting } = useAction(deleteProjectImage, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          title: "Success",
-          description: args.data?.message,
-        });
-      }
+  const { mutate: execute, isPending } = api.project.deleteImage.useMutation({
+    onSuccess: async () => {
+      await utils.project.all.invalidate();
+
+      toast({
+        title: "Success",
+        description: "Project deleted successfully",
+      });
     },
-    onError(args) {
+    onError: (error) => {
       toast({
         title: "Error",
-        description: args.error.serverError,
+        description: error.message,
         variant: "destructive",
       });
     },
@@ -61,7 +58,9 @@ const ImageCell = ({ row }: { row: Row<Projects> }) => {
       }}
       className="hidden ut-button:w-[150px] ut-button:p-4 ut-allowed-content:hidden ut-label:hidden xl:block"
       endpoint="imageUploader"
-      onClientUploadComplete={() => {
+      onClientUploadComplete={async () => {
+        await utils.project.all.invalidate();
+
         // Do something with the response
         toast({
           title: "Success",
@@ -79,13 +78,13 @@ const ImageCell = ({ row }: { row: Row<Projects> }) => {
     />
   ) : (
     <Button
-      disabled={isExecuting}
+      disabled={isPending}
       className="hidden w-[150px] p-4 xl:flex"
       onClick={() => {
         execute({ id: row.original.id });
       }}
     >
-      {isExecuting ? (
+      {isPending ? (
         <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
       ) : null}
       Delete
@@ -94,19 +93,21 @@ const ImageCell = ({ row }: { row: Row<Projects> }) => {
 };
 
 const ActionCell = ({ row }: { row: Row<Projects> }) => {
-  const { execute } = useAction(deleteProjectAction, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          title: "Success",
-          description: args.data?.message,
-        });
-      }
+  const utils = api.useUtils();
+
+  const { mutate: execute } = api.project.delete.useMutation({
+    onSuccess: async () => {
+      await utils.project.all.invalidate();
+
+      toast({
+        title: "Success",
+        description: "Project deleted successfully",
+      });
     },
-    onError(args) {
+    onError: (error) => {
       toast({
         title: "Error",
-        description: args.error.serverError,
+        description: error.message,
         variant: "destructive",
       });
     },

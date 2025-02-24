@@ -3,56 +3,38 @@
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
-import { useSheetStore } from "@/provider/sheet-store-provider";
 import { addProjectSchema } from "@/schema/projects";
-import { createNewProject } from "@/server/actions/project-action";
+import { api } from "@/trpc/react";
 import { LoaderCircle } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function AddProjectForm() {
+  const utils = api.useUtils();
   const router = useRouter();
 
-  const { setOpen } = useSheetStore((state) => state);
-
-  const { execute, isExecuting } = useAction(createNewProject, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          description: args.data?.message,
-          title: "Success",
-        });
-      }
-
-      setOpen(false);
-
-      setTimeout(() => {
-        router.back();
-        setOpen(true);
-      }, 300);
-    },
-    onError(args) {
-      if (args.error.validationErrors) {
-        args.error.validationErrors._errors?.forEach((error: string) => {
-          toast({
-            description: error,
-            title: "Error",
-            variant: "destructive",
-          });
-        });
-      }
+  const { mutate: execute, isPending } = api.project.create.useMutation({
+    onSuccess: async () => {
+      await utils.project.all.invalidate();
 
       toast({
-        description: args.error.serverError,
+        title: "Success",
+        description: "Project created successfully",
+      });
+
+      router.back();
+    },
+    onError: (error) => {
+      toast({
         title: "Error",
+        description: error.message,
         variant: "destructive",
       });
     },
   });
 
   return (
-    <ScrollArea className="h-full xl:flex xl:flex-col xl:items-center xl:justify-center">
+    <ScrollArea className="flex max-h-[650px] w-full flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center p-4">
         <AutoForm
           onSubmit={(data) => {
@@ -62,7 +44,6 @@ export default function AddProjectForm() {
           fieldConfig={{
             description: {
               fieldType: "textarea",
-              description: "Description of the project",
             },
             github_url: {
               label: "Github",
@@ -76,8 +57,8 @@ export default function AddProjectForm() {
             },
           }}
         >
-          <AutoFormSubmit disabled={isExecuting} className="w-full">
-            {isExecuting ? (
+          <AutoFormSubmit disabled={isPending} className="w-full">
+            {isPending ? (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
             Submit

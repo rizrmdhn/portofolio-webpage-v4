@@ -4,10 +4,9 @@ import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { updateProjectSchema } from "@/schema/projects";
-import { updateProjectAction } from "@/server/actions/project-action";
+import { api } from "@/trpc/react";
 import { type Projects } from "@/types/project";
 import { LoaderCircle } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { type z } from "zod";
@@ -29,33 +28,24 @@ export default function EditProjectForm({
     url: url ?? "",
   });
 
+  const utils = api.useUtils();
   const router = useRouter();
 
-  const { execute, isExecuting } = useAction(updateProjectAction, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          description: args.data?.message,
-          title: "Success",
-        });
-      }
-
-      router.refresh();
-    },
-    onError(args) {
-      if (args.error.validationErrors) {
-        args.error.validationErrors._errors?.forEach((error: string) => {
-          toast({
-            description: error,
-            title: "Error",
-            variant: "destructive",
-          });
-        });
-      }
+  const { mutate: execute, isPending } = api.project.update.useMutation({
+    onSuccess: async () => {
+      await utils.project.all.invalidate();
 
       toast({
-        description: args.error.serverError,
+        title: "Success",
+        description: "Project updated successfully",
+      });
+
+      router.back();
+    },
+    onError: (error) => {
+      toast({
         title: "Error",
+        description: error.message,
         variant: "destructive",
       });
     },
@@ -93,8 +83,8 @@ export default function EditProjectForm({
             },
           }}
         >
-          <AutoFormSubmit disabled={isExecuting} className="w-full">
-            {isExecuting ? (
+          <AutoFormSubmit disabled={isPending} className="w-full">
+            {isPending ? (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
             Submit

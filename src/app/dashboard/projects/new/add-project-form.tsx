@@ -4,40 +4,30 @@ import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { addProjectSchema } from "@/schema/projects";
-import { createNewProject } from "@/server/actions/project-action";
+import { api } from "@/trpc/react";
 import { LoaderCircle } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function AddProjectForm() {
+  const utils = api.useUtils();
   const router = useRouter();
 
-  const { execute, isExecuting } = useAction(createNewProject, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          description: args.data?.message,
-          title: "Success",
-        });
-      }
+  const { mutate: execute, isPending } = api.project.create.useMutation({
+    onSuccess: async () => {
+      await utils.project.all.invalidate();
+
+      toast({
+        title: "Success",
+        description: "Project created successfully",
+      });
 
       router.back();
     },
-    onError(args) {
-      if (args.error.validationErrors) {
-        args.error.validationErrors._errors?.forEach((error: string) => {
-          toast({
-            description: error,
-            title: "Error",
-            variant: "destructive",
-          });
-        });
-      }
-
+    onError: (error) => {
       toast({
-        description: args.error.serverError,
         title: "Error",
+        description: error.message,
         variant: "destructive",
       });
     },
@@ -67,8 +57,8 @@ export default function AddProjectForm() {
             },
           }}
         >
-          <AutoFormSubmit disabled={isExecuting} className="w-full">
-            {isExecuting ? (
+          <AutoFormSubmit disabled={isPending} className="w-full">
+            {isPending ? (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
             Submit

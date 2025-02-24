@@ -24,7 +24,7 @@ export const users = createTable(
   "users",
   {
     id: text("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
     email: varchar("email", { length: 256 }).notNull(),
     password: varchar("password", { length: 256 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })

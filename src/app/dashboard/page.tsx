@@ -1,6 +1,5 @@
-import DashboardCard from "@/app/dashboard/dashboard-card";
-import { getAllViews } from "@/server/queries/page-views-queries";
-import React, { Suspense } from "react";
+import React from "react";
+import DashboardContent from "./dashboard-content";
 
 export const metadata = {
   title: "Dashboard | My Portfolio",
@@ -8,29 +7,14 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default async function DashboardPage() {
-  const pageViews = await getAllViews();
-
+export default function DashboardPage() {
   return (
     <>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
       </div>
       <div className="flex flex-row flex-wrap gap-4 p-4 lg:gap-6 lg:p-6">
-        <Suspense fallback={<div>Loading...</div>}>
-          <DashboardCard
-            title="Total Views"
-            count={pageViews.totalCount}
-            textLocation="right"
-          />
-          {pageViews.views.map((pageView) => (
-            <DashboardCard
-              key={pageView.id}
-              {...pageView}
-              textLocation="right"
-            />
-          ))}
-        </Suspense>
+        <DashboardContent />
       </div>
     </>
   );

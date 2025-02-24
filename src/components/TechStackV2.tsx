@@ -15,7 +15,7 @@ const technologies = [
   },
   {
     category: "Backend",
-    skills: ["Node.js", "Express", "Laravel", "PostgreSQL", "MongoDB"],
+    skills: ["Node.js", "Express", "Laravel", "PostgreSQL"],
   },
   {
     category: "Tools",

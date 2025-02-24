@@ -3,16 +3,11 @@ import { Linkedin, Mail } from "lucide-react";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
-import ProjectCardV2 from "@/components/ProjectCardV2";
 import TechStackV2 from "@/components/TechStackV2";
-import ExperienceCardV2 from "@/components/ExperienceCardV2";
-import { getNewestExperience } from "@/server/queries/experience-queries";
-import { getNewestProject } from "@/server/queries/project-queries";
+import Experience from "./experience";
+import Project from "./project";
 
-export default async function Page() {
-  const project = await getNewestProject();
-  const experiences = await getNewestExperience();
-
+export default function Page() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -105,17 +100,7 @@ export default async function Page() {
             <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Work Experience
             </h2>
-            <div className="grid gap-6 md:grid-cols-2">
-              {experiences.map((exp) => (
-                <ExperienceCardV2
-                  key={exp.id}
-                  title={exp.name}
-                  company={exp.company}
-                  period={exp.date}
-                  description={exp.description}
-                />
-              ))}
-            </div>
+            <Experience />
           </div>
         </section>
 
@@ -124,18 +109,7 @@ export default async function Page() {
             <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Projects
             </h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {project.map((proj) => (
-                <ProjectCardV2
-                  key={proj.id}
-                  title={proj.name}
-                  description={proj.description ?? "No description provided."}
-                  image={proj.image_url ?? "/images/loader.png"}
-                  link={proj.github_url}
-                  tags={proj.tech}
-                />
-              ))}
-            </div>
+            <Project />
           </div>
         </section>
 

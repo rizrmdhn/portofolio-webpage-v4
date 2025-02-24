@@ -3,11 +3,11 @@
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
+import { useSheetStore } from "@/provider/sheet-store-provider";
 import { updateExperienceSchema } from "@/schema/experiences";
-import { updateProjectAction } from "@/server/actions/project-action";
+import { api } from "@/trpc/react";
 import { type Experiences } from "@/types/expereince";
 import { LoaderCircle } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { type z } from "zod";
@@ -20,7 +20,7 @@ export default function EditExperienceForm({
   date,
   type,
 }: Experiences) {
-  const [values, setValues] = useState<z.infer<typeof updateExperienceSchema>>({
+  const [values] = useState<z.infer<typeof updateExperienceSchema>>({
     id: id,
     name: name,
     description: description ?? "",
@@ -29,57 +29,41 @@ export default function EditExperienceForm({
     type: type,
   });
 
+  const utils = api.useUtils();
   const router = useRouter();
 
-  const { execute, isExecuting } = useAction(updateProjectAction, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          description: args.data?.message,
-          title: "Success",
-        });
-      }
+  const setOpen = useSheetStore((state) => state.setOpen);
 
-      router.refresh();
-    },
-    onError(args) {
-      if (args.error.validationErrors) {
-        args.error.validationErrors._errors?.forEach((error: string) => {
-          toast({
-            description: error,
-            title: "Error",
-            variant: "destructive",
-          });
-        });
-      }
+  const { mutate: execute, isPending } = api.experience.update.useMutation({
+    onSuccess: async () => {
+      await utils.experience.all.invalidate();
 
       toast({
-        description: args.error.serverError,
+        title: "Success",
+        description: "Experience updated successfully",
+      });
+
+      setOpen(false);
+
+      setTimeout(() => {
+        router.back();
+        setOpen(true);
+      }, 300);
+    },
+    onError: (error) => {
+      toast({
         title: "Error",
+        description: error.message,
         variant: "destructive",
       });
     },
   });
 
   return (
-    <ScrollArea className="flex max-h-[650px] w-full flex-col items-center justify-center">
+    <ScrollArea className="flex h-full w-full flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center p-4">
         <AutoForm
           values={values}
-          onParsedValuesChange={(data) => {
-            if (data.id !== id) {
-              return toast({
-                title: "Error",
-                description: "Something went wrong",
-                variant: "destructive",
-              });
-            }
-
-            setValues({
-              id: data.id,
-              ...data,
-            });
-          }}
           onSubmit={(data) => {
             execute({ ...data, id: id });
           }}
@@ -95,10 +79,16 @@ export default function EditExperienceForm({
             description: {
               fieldType: "textarea",
             },
+            type: {
+              fieldType: "select",
+              inputProps: {
+                defaultValue: type,
+              },
+            },
           }}
         >
-          <AutoFormSubmit disabled={isExecuting} className="w-full">
-            {isExecuting ? (
+          <AutoFormSubmit disabled={isPending} className="w-full">
+            {isPending ? (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
             Submit

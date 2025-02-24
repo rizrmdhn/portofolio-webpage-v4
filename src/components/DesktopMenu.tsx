@@ -5,7 +5,6 @@ import {
   Briefcase,
   FolderGit2,
   Home,
-  MonitorSmartphone,
   Package2,
   Settings,
   UserRoundCog,
@@ -84,15 +83,6 @@ export default function DesktopMenu() {
                 >
                   <UserRoundCog className="h-4 w-4" />
                   Account Settings
-                </Link>
-                <Link
-                  href={"/dashboard/settings/active-sessions"}
-                  className={isActiveDesktop(
-                    location.includes("/dashboard/settings/active-sessions"),
-                  )}
-                >
-                  <MonitorSmartphone className="h-4 w-4" />
-                  Active Sessions
                 </Link>
               </AccordionContent>
             </AccordionItem>

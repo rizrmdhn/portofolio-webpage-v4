@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTheme } from "next-themes";
@@ -145,7 +145,6 @@ export default function MobileMenu({ user }: MobileMenuProps) {
         <DropdownMenuTrigger className="ml-auto">
           <Suspense fallback={<Skeleton className="h-10 w-10" />}>
             <Avatar className="h-10 w-10 border">
-              <AvatarImage alt={user.name} src={user.name} />
               <AvatarFallback>
                 {user.name.charAt(0).toUpperCase()}
               </AvatarFallback>

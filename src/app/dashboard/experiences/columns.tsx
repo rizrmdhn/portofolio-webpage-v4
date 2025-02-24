@@ -17,28 +17,25 @@ import {
 import type { ColumnDef, Row } from "@tanstack/react-table";
 import moment from "moment-timezone";
 import { toast } from "@/components/ui/use-toast";
-import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { type InferSelectModel } from "drizzle-orm";
 import { type experiences } from "@/server/db/schema";
-import { deleteExperienceAction } from "@/server/actions/experience-action";
+import { api } from "@/trpc/react";
 
 export type Experiences = InferSelectModel<typeof experiences>;
 
 const ActionCell = ({ row }: { row: Row<Experiences> }) => {
-  const { execute } = useAction(deleteExperienceAction, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          title: "Success",
-          description: args.data?.message,
-        });
-      }
+  const deleteMutation = api.experience.delete.useMutation({
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Experience deleted successfully",
+      });
     },
-    onError(args) {
+    onError: (error) => {
       toast({
         title: "Error",
-        description: args.error.serverError,
+        description: error.message,
         variant: "destructive",
       });
     },
@@ -59,7 +56,9 @@ const ActionCell = ({ row }: { row: Row<Experiences> }) => {
             Edit
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => execute({ id: row.original.id })}>
+        <DropdownMenuItem
+          onClick={() => deleteMutation.mutate({ id: row.original.id })}
+        >
           <Trash className="mr-4 size-4" />
           Delete
         </DropdownMenuItem>

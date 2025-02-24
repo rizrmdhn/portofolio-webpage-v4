@@ -15,6 +15,7 @@ export interface Session {
 export interface SessionUser {
   id: string;
   name: string;
+  email: string;
   createdAt: string;
   updatedAt: string | null;
 }
@@ -22,6 +23,7 @@ export interface SessionUser {
 export interface JWTPayload extends JoseJWTPayload {
   id: string;
   name: string;
+  email: string;
   createdAt: string;
   updatedAt: string | null;
 }

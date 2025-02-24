@@ -2,10 +2,11 @@ import {
   addExperienceSchema,
   updateExperienceSchema,
 } from "@/schema/experiences";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import {
   deleteExperience,
   getExperienceDetail,
+  getNewestExperience,
   insertExperience,
   updateExperience,
 } from "@/server/queries/experience-queries";
@@ -13,6 +14,12 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 export const experienceRouter = createTRPCRouter({
+  list: publicProcedure.query(async () => {
+    const experiences = await getNewestExperience();
+
+    return experiences;
+  }),
+
   create: protectedProcedure
     .input(addExperienceSchema)
     .mutation(async ({ input }) => {

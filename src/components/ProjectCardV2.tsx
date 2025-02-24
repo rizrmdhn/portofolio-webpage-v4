@@ -1,23 +1,38 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { api } from "@/trpc/react";
+import { Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 
 interface ProjectCardProps {
+  id: string;
   title: string;
   description: string;
   image: string;
   link: string | null;
+  url: string | null;
+  views: number;
   tags: string[];
 }
 
 export default function ProjectCardV2({
+  id,
   title,
   description,
   image,
   link,
+  url,
+  views,
   tags,
 }: ProjectCardProps) {
+  const utils = api.useUtils();
+  const incrementViewMutation = api.project.incrementView.useMutation({
+    onSuccess: async () => {
+      await utils.project.list.invalidate();
+    },
+  });
+
   return (
     <Card className="overflow-hidden">
       <div className="relative aspect-video">
@@ -42,18 +57,35 @@ export default function ProjectCardV2({
           ))}
         </div>
       </CardContent>
-      {link && (
-        <CardFooter className="p-4 pt-0">
-          <Link
-            href={link}
-            target="_blank"
-            className="inline-flex items-center gap-2 text-sm hover:underline"
-          >
-            <FaGithub className="h-4 w-4" />
-            View on GitHub
-          </Link>
-        </CardFooter>
-      )}
+      <CardFooter className="flex flex-row justify-between p-4 pt-0">
+        <div className="flex items-center gap-2">
+          {link && (
+            <Link
+              href={link}
+              target="_blank"
+              className="inline-flex items-center gap-2 text-sm hover:underline"
+              onClick={() => incrementViewMutation.mutate({ id })}
+            >
+              <FaGithub className="h-4 w-4" />
+              View on GitHub
+            </Link>
+          )}
+          {url && (
+            <Link
+              href={url}
+              target="_blank"
+              className="inline-flex items-center gap-2 text-sm hover:underline"
+              onClick={() => incrementViewMutation.mutate({ id })}
+            >
+              <Globe className="h-4 w-4" />
+              View Live
+            </Link>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <p className="text-sm">{views} Views</p>
+        </div>
+      </CardFooter>
     </Card>
   );
 }

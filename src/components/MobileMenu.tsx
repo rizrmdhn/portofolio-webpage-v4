@@ -6,7 +6,6 @@ import {
   FolderGit2,
   Home,
   Menu,
-  MonitorSmartphone,
   Package2,
   Settings,
   UserRoundCog,
@@ -23,11 +22,9 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { useAction } from "next-safe-action/hooks";
-import { logout } from "@/server/actions/auth-action";
 import { useToast } from "./ui/use-toast";
 import { type User } from "lucia";
 import { Suspense } from "react";
@@ -37,26 +34,29 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
+import { api } from "@/trpc/react";
 
 type MobileMenuProps = {
   user: User;
 };
 
 export default function MobileMenu({ user }: MobileMenuProps) {
+  const router = useRouter();
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
-  const { execute, isExecuting } = useAction(logout, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          description: args.data?.message,
-          title: "Success",
-        });
-      }
-    },
-    onError(args) {
+
+  const logoutMutation = api.auth.logout.useMutation({
+    onSuccess: () => {
       toast({
-        description: args.error.serverError,
+        description: "Logout successful",
+        title: "Success",
+      });
+
+      router.push("/login");
+    },
+    onError: (error) => {
+      toast({
+        description: error.message,
         title: "Error",
         variant: "destructive",
       });
@@ -135,15 +135,6 @@ export default function MobileMenu({ user }: MobileMenuProps) {
                     <UserRoundCog className="h-4 w-4" />
                     Account Settings
                   </Link>
-                  <Link
-                    href={"/dashboard/settings/active-sessions"}
-                    className={isActiveMobile(
-                      location.includes("/dashboard/settings/active-sessions"),
-                    )}
-                  >
-                    <MonitorSmartphone className="h-4 w-4" />
-                    Active Sessions
-                  </Link>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -175,7 +166,10 @@ export default function MobileMenu({ user }: MobileMenuProps) {
             Change Theme
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => execute()} disabled={isExecuting}>
+          <DropdownMenuItem
+            onClick={() => logoutMutation.mutate()}
+            disabled={logoutMutation.isPending}
+          >
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>

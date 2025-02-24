@@ -28,6 +28,7 @@ export const authRouter = createTRPCRouter({
       const token = await encrypt({
         id: user.id,
         name: user.name,
+        email: user.email,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
         jti: user.id,

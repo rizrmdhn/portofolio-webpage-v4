@@ -24,35 +24,26 @@ import {
 } from "@/components/ui/form";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { login } from "@/server/actions/auth-action";
-import { useAction } from "next-safe-action/hooks";
+import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const { toast } = useToast();
   const [type, setType] = useState<"text" | "password">("password");
 
-  const { execute, isExecuting } = useAction(login, {
-    onSuccess(args) {
-      if (args.data?.status === "success") {
-        toast({
-          description: args.data?.message,
-          title: "Success",
-        });
-      }
-    },
-    onError(args) {
-      if (args.error.validationErrors) {
-        args.error.validationErrors._errors?.forEach((error: string) => {
-          toast({
-            description: error,
-            title: "Error",
-            variant: "destructive",
-          });
-        });
-      }
-
+  const loginMutation = api.auth.login.useMutation({
+    onSuccess: () => {
       toast({
-        description: args.error.serverError,
+        description: "Login successful",
+        title: "Success",
+      });
+
+      router.push("/dashboard");
+    },
+    onError: (error) => {
+      toast({
+        description: error.message,
         title: "Error",
         variant: "destructive",
       });
@@ -68,7 +59,7 @@ export default function LoginForm() {
   });
 
   function handleSubmit(data: z.infer<typeof loginSchema>) {
-    execute(data);
+    loginMutation.mutate(data);
   }
 
   return (
@@ -133,8 +124,12 @@ export default function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={isExecuting}>
-              {isExecuting ? (
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loginMutation.isPending}
+            >
+              {loginMutation.isPending ? (
                 <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
               ) : null}
               Login

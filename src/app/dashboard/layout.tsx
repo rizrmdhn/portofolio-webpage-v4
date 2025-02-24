@@ -1,5 +1,5 @@
 import DashboardLayout from "@/layout/DashboardLayout";
-import { getUser } from "@/lib/session";
+import getCurrentSession from "@/server/auth/sessions";
 import { redirect } from "next/navigation";
 
 export default async function Layout({
@@ -7,7 +7,7 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getUser();
+  const { user } = await getCurrentSession();
   if (!user) {
     redirect("/login");
   }

@@ -5,6 +5,7 @@ import {
   Briefcase,
   FolderGit2,
   Home,
+  Mail,
   Menu,
   Package2,
   Settings,
@@ -116,6 +117,13 @@ export default function MobileMenu({ user }: MobileMenuProps) {
             >
               <AreaChart className="h-4 w-4" />
               Statistics
+            </Link>
+            <Link
+              href={"/dashboard/messages"}
+              className={isActiveMobile(location === "/dashboard/messages")}
+            >
+              <Mail className="h-4 w-4" />
+              Messages
             </Link>
             <Accordion type="multiple">
               <AccordionItem value="item-1" className="border-none">

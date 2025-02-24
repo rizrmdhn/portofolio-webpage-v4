@@ -5,6 +5,7 @@ import {
   Briefcase,
   FolderGit2,
   Home,
+  Mail,
   Package2,
   Settings,
   UserRoundCog,
@@ -64,6 +65,13 @@ export default function DesktopMenu() {
           >
             <AreaChart className="h-4 w-4" />
             Statistics
+          </Link>
+          <Link
+            href={"/dashboard/messages"}
+            className={isActiveDesktop(location === "/dashboard/messages")}
+          >
+            <Mail className="h-4 w-4" />
+            Messages
           </Link>
 
           <Accordion type="multiple">

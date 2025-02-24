@@ -3,6 +3,7 @@ import { authRouter } from "./routes/auth";
 import { experienceRouter } from "./routes/experience";
 import { projectRouter } from "./routes/project";
 import { pageViewRouter } from "./routes/page-view";
+import { messageRouter } from "./routes/message";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   experience: experienceRouter,
   project: projectRouter,
   pageView: pageViewRouter,
+  message: messageRouter,
 });
 
 // export type definition of API

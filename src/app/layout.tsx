@@ -27,7 +27,11 @@ export default function RootLayout({
   sheet: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${poppins.className}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${poppins.className} scroll-smooth`}
+      suppressHydrationWarning
+    >
       <body>
         <TRPCReactProvider>
           <NextSSRPlugin
